@@ -4,12 +4,12 @@
 #include <iostream>
 
 class ParticleType {
-  public:
+ public:
   char const* GetName() const;
   double GetMass() const;
   int GetCharge() const;
 
-  ParticleType(char* name, double mass, int charge)
+  ParticleType(char const* name, double mass, int charge)
       : fName{name}, fMass{mass}, fCharge{charge} {}
 
  private:
