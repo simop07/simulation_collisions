@@ -4,23 +4,23 @@
 #include <iostream>
 
 class ParticleType {
- public:
-  auto GetName() const;
-  auto GetMass() const;
-  auto GetCharge() const;
+  public:
+  char const* GetName() const;
+  double GetMass() const;
+  int GetCharge() const;
 
-  ParticleType(char* name = '\0', double mass = 0., int charge = 0)
+  ParticleType(char* name, double mass, int charge)
       : fName{name}, fMass{mass}, fCharge{charge} {}
 
  private:
-  char* const fName;
+  char const* fName;
   double const fMass;
   int const fCharge;
 };
 
 inline std::ostream& operator<<(std::ostream& os, ParticleType const& p) {
-  os << "Name: " << p.GetName() << "Mass: " << p.GetMass()
-     << "Charge: " << p.GetCharge();
+  os << "Name: " << p.GetName() << "\tMass: " << p.GetMass()
+     << "\tCharge: " << p.GetCharge();
   return os;
 }
 

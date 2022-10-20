@@ -1,5 +1,5 @@
 #include "ParticleType.hpp"
 
-auto ParticleType::GetName() const { return fName; }
-auto ParticleType::GetMass() const { return fMass; }
-auto ParticleType::GetCharge() const { return fCharge; }
+char const* ParticleType::GetName() const { return fName; }
+double ParticleType::GetMass() const { return fMass; }
+int ParticleType::GetCharge() const { return fCharge; }
