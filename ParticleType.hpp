@@ -1,0 +1,5 @@
+#ifndef PARTICLETYPE_HPP
+#define PARTICLETYPE_HPP
+
+
+#endif
