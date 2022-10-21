@@ -2,26 +2,21 @@
 #define PARTICLETYPE_HPP
 
 #include <iostream>
+#include <iomanip>
 
 class ParticleType {
  public:
-  char const* GetName() const;
+  ParticleType(std::string const& name, double mass, int charge);
+
+  std::string const GetName() const;
   double GetMass() const;
   int GetCharge() const;
-
-  ParticleType(char const* name, double mass, int charge)
-      : fName{name}, fMass{mass}, fCharge{charge} {}
+  virtual void Print() const;
 
  private:
-  char const* fName;
+  std::string const fName;
   double const fMass;
   int const fCharge;
 };
-
-inline std::ostream& operator<<(std::ostream& os, ParticleType const& p) {
-  os << "Name: " << p.GetName() << "\tMass: " << p.GetMass()
-     << "\tCharge: " << p.GetCharge();
-  return os;
-}
 
 #endif
