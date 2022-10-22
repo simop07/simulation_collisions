@@ -1,4 +1,5 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+
 #include "Particle.hpp"
 #include "ParticleType.hpp"
 #include "ResonanceType.hpp"
@@ -49,8 +50,36 @@ TEST_CASE("ParticleType and ResonanceType") {
 }
 
 TEST_CASE("Particle") {
-  // Particle p1{"electron"};
-  // Particle p2{"proton", 2.8e-2, -5.3e-3, 4.5e-2};
+  // Checking for runtime error
+  // CHECK_THROWS_AS(Particle par1{"p1"}, std::runtime_error);
+  Particle par1{"p1"};
+  Particle par2{"p2", 2.3e3, -3.43e3, -6.32e3};
 
-  // CHECK_THROWS_MESSAGE()??
+  CHECK(par2.GetPx() == 2.3e3);
+  CHECK(par2.GetPy() == -3.43e3);
+  CHECK(par2.GetPz() == -6.32e3);
+
+  par1.SetP(1e3, -1e3, 2.1e3);
+
+  CHECK(par1.GetPx() == 1e3);
+  CHECK(par1.GetPy() == -1e3);
+  CHECK(par1.GetPz() == 2.1e3);
+
+  Particle::AddParticleType("electron", 0.511, -1);
+  par1.AddParticleType("kaon", -0.011, 3, 2.4);
+  par2.AddParticleType("proton", 0.937, 1);
+  // Insert tests for code above
+  par1.SetIndex(1);
+  par2.SetIndex(2);
+  // Inssert test for SetIndex(std::string const& name)
+  CHECK(par1.GetIndex() == 1);
+  CHECK(par2.GetIndex() == 2);
+
+  Particle::PrintParticle();
+  // Insert code to test the above
+  /*  par1.PrintIndex();
+   par2.PrintIndex(); */
+  // Insert code to test the above
+  /* Particle::GetSize(); */
+  // Insert code to test the above
 }
