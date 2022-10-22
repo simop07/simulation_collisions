@@ -21,11 +21,29 @@ class Particle {
                               double width = 0.);
 
   void SetIndex(int index);
+
   void SetIndex(std::string const& name);
 
-  /* double GetPx() const;
+  // stampa l'intero contenuto dell'array di puntatori a particleType
+  static void PrintParticle();
+
+  void PrintIndex() const;
+
+  double GetPx() const;
+
   double GetPy() const;
-  double GetPz() const; */
+
+  double GetPz() const;
+
+  double GetIndexMass() const;
+
+  Particle& operator+=(Particle const& p);
+
+  double GetEnergy() const;
+
+  double InvMass(Particle const& p) const;
+
+  void SetP(double px, double py, double pz);
 
  private:
   static std::vector<ParticleType*> fParticleType;

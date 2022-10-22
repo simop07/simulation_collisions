@@ -1,10 +1,12 @@
 #include "Particle.hpp"
 
+#include <cmath>
+
 Particle::Particle(std::string const& name, double px, double py, double pz)
     : fPx{px}, fPy{py}, fPz{pz} {
   auto index = FindParticle(name);
 
-  // Converting unsigned in signed
+  // Converting unsigned int in signed int
   int size = fParticleType.size();
 
   // scrivere la possibilità di riprovare??
@@ -37,7 +39,7 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
   int size = fParticleType.size();
 
   if (index == size) {
-    std::cerr << "Particle already inserted.\n";
+    std::cerr << "Invalid input: particle already inserted.\n";
   } else {
     ResonanceType resT{name, mass, charge, width};
 
@@ -57,12 +59,57 @@ void Particle::SetIndex(std::string const& name) {
   int size = fParticleType.size();
 
   if (index == size) {
-    std::cerr << "Particle already inserted.\n";
+    std::cerr << "Invalid input: particle not found.\n";
   } else {
     fIndex = index;
   }
 }
 
-/* double Particle::GetPx() const { return fPx; }
+void Particle::PrintParticle() {
+  std::for_each(fParticleType.begin(), fParticleType.end(),
+                [](ParticleType* p) { p->Print(); });
+}
+
+// Printing data with same spacing
+void Particle::PrintIndex() const {
+  using namespace std;
+
+  cout << left << setw(10) << "\nIndex:" << fIndex << left << setw(10)
+       << "\nName" << fParticleType[fIndex]->GetName() << left << setw(10)
+       << "\nPx:" << fPx << left << setw(10) << "\nPy:" << fPy << left
+       << setw(10) << "\nPz:" << fPz << '\n';
+}
+
+double Particle::GetPx() const { return fPx; }
+
 double Particle::GetPy() const { return fPy; }
-double Particle::GetPz() const { return fPz; } */
+
+double Particle::GetPz() const { return fPz; }
+
+double Particle::GetIndexMass() const {
+  return fParticleType[fIndex]->GetMass();
+}
+
+Particle& Particle::operator+=(Particle const& p) {
+  fPx += p.fPx;
+  fPy += p.fPy;
+  fPy += p.fPz;
+  return *this;
+}
+
+double Particle::GetEnergy() const {
+  return sqrt(GetIndexMass() * GetIndexMass() +
+              (fPx * fPx + fPy * fPy + fPz * fPz));
+}
+
+double Particle::InvMass(Particle const& p) const {
+  return sqrt((GetEnergy() + p.GetEnergy()) * (GetEnergy() + p.GetEnergy()) -
+              (fPx * p.fPx + fPy * p.fPy + fPz * p.fPz) *
+                  (fPx * p.fPx + fPy * p.fPy + fPz * p.fPz));
+}
+
+void Particle::SetP(double px, double py, double pz) {
+  fPx = px;
+  fPy = py;
+  fPz = pz;
+}

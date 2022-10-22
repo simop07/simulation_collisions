@@ -49,8 +49,8 @@ TEST_CASE("ParticleType and ResonanceType") {
 }
 
 TEST_CASE("Particle") {
-  Particle p1{"electron"};
-  Particle p2{"proton", 2.8e-2, -5.3e-3, 4.5e-2};
+  // Particle p1{"electron"};
+  // Particle p2{"proton", 2.8e-2, -5.3e-3, 4.5e-2};
 
   // CHECK_THROWS_MESSAGE()??
 }
