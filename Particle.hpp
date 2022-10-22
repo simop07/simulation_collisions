@@ -1,10 +1,6 @@
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
 
-#include <algorithm>
-#include <cassert>
-#include <iterator>
-#include <stdexcept>
 #include <vector>
 
 #include "ParticleType.hpp"
@@ -37,13 +33,15 @@ class Particle {
 
   double GetIndexMass() const;
 
-  Particle& operator+=(Particle const& p);
+  // Particle& operator+=(Particle const& p);
 
   double GetEnergy() const;
 
   double InvMass(Particle const& p) const;
 
   void SetP(double px, double py, double pz);
+
+  static int GetSize();
 
  private:
   static std::vector<ParticleType*> fParticleType;

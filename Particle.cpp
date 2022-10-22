@@ -1,5 +1,9 @@
 #include "Particle.hpp"
+//#include <cassert>
+//#include <stdexcept>
+//#include <iterator>
 
+#include <algorithm>
 #include <cmath>
 
 Particle::Particle(std::string const& name, double px, double py, double pz)
@@ -7,17 +11,18 @@ Particle::Particle(std::string const& name, double px, double py, double pz)
   auto index = FindParticle(name);
 
   // Converting unsigned int in signed int
-  int size = fParticleType.size();
+  auto size = GetSize();
 
   // scrivere la possibilità di riprovare??
   // lasciare throw
   if (index == size) {
-    throw std::runtime_error{"Invalid input: no correspondence found.\n"};
+    // throw std::runtime_error{"Invalid input: no correspondence found.\n"};
+    std::cout << "No correspondence found\n";
   } else {
     fIndex = index;
   }
 
-  assert(fIndex != size);
+  // assert(fIndex != size);
 }
 
 std::vector<ParticleType*> Particle::fParticleType{};
@@ -36,18 +41,14 @@ int Particle::GetIndex() const { return fIndex; }
 void Particle::AddParticleType(std::string const& name, double mass, int charge,
                                double width) {
   auto index = FindParticle(name);
-  int size = fParticleType.size();
+  auto size = GetSize();
 
   if (index == size) {
-    std::cerr << "Invalid input: particle already inserted.\n";
+    // std::cerr << "Invalid input: particle already inserted.\n";
+    std::cout << "Particle already inserted.\n";
   } else {
-    ResonanceType resT{name, mass, charge, width};
-
-    std::transform(fParticleType.begin(), fParticleType.end(),
-                   std::back_inserter(fParticleType), [&](ParticleType* p) {
-                     p = &resT;
-                     return p;
-                   });
+    ResonanceType* resT = new ResonanceType{name, mass, charge, width};
+    fParticleType.push_back(resT);
   }
 }
 
@@ -56,10 +57,11 @@ void Particle::SetIndex(int index) { fIndex = index; }
 
 void Particle::SetIndex(std::string const& name) {
   auto index = FindParticle(name);
-  int size = fParticleType.size();
+  auto size = GetSize();
 
   if (index == size) {
-    std::cerr << "Invalid input: particle not found.\n";
+    // std::cerr << "Invalid input: particle not found.\n";
+    std::cout << "Particle not found.\n";
   } else {
     fIndex = index;
   }
@@ -90,12 +92,12 @@ double Particle::GetIndexMass() const {
   return fParticleType[fIndex]->GetMass();
 }
 
-Particle& Particle::operator+=(Particle const& p) {
+/* Particle& Particle::operator+=(Particle const& p) {
   fPx += p.fPx;
   fPy += p.fPy;
   fPy += p.fPz;
   return *this;
-}
+} */
 
 double Particle::GetEnergy() const {
   return sqrt(GetIndexMass() * GetIndexMass() +
@@ -112,4 +114,9 @@ void Particle::SetP(double px, double py, double pz) {
   fPx = px;
   fPy = py;
   fPz = pz;
+}
+
+int Particle::GetSize() {
+  int size = fParticleType.size();
+  return size;
 }
