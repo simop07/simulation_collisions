@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <iterator>
 #include <stdexcept>
 #include <vector>
 
@@ -14,6 +15,18 @@ class Particle {
   Particle(std::string const& name, double px = 0., double py = 0.,
            double pz = 0.);
 
+  int GetIndex() const;
+
+  static void AddParticleType(std::string const& name, double mass, int charge,
+                              double width = 0.);
+
+  void SetIndex(int index);
+  void SetIndex(std::string const& name);
+
+  /* double GetPx() const;
+  double GetPy() const;
+  double GetPz() const; */
+
  private:
   static std::vector<ParticleType*> fParticleType;
   int fIndex;
@@ -21,7 +34,7 @@ class Particle {
   double fPy;
   double fPz;
 
-  int FindParticle(std::string const& particleName) const;
+  static int FindParticle(std::string const& particleName);
 };
 
 #endif
