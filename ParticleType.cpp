@@ -10,6 +10,7 @@ double ParticleType::GetMass() const { return fMass; }
 
 int ParticleType::GetCharge() const { return fCharge; }
 
+// Printing data with same spacing
 void ParticleType::Print() const {
   cout << left << setw(10) << "\nName:" << fName << left << setw(10)
        << "\nMass:" << fMass << left << setw(10) << "\nCharge:" << left
