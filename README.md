@@ -14,7 +14,9 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
 - Verificare la possibilità di controllo nell'input.
 - Cambiare nomi (e dati??) coerenti nei test
 - Using namespace std?? -> Direi di sì
+- *Aggiungere commenti*
 - Aggiungere indirizzo di Github nella relazione, assieme a tutto ciò che riguarda:
+
     - Istruzioni di dowload
     - Istruzioni di compilazione
     - Istruzioni di testing
