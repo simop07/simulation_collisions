@@ -1,4 +1,4 @@
-#include "ResonanceType.hpp"
+#include "resonanceType.hpp"
 
 ResonanceType::ResonanceType(std::string const& name, double mass, int charge,
                              double width)

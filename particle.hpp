@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "ParticleType.hpp"
-#include "ResonanceType.hpp"
+#include "particleType.hpp"
+#include "resonanceType.hpp"
 
 class Particle {
  public:

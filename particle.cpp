@@ -1,4 +1,4 @@
-#include "Particle.hpp"
+#include "particle.hpp"
 
 #include <algorithm>
 #include <cassert>

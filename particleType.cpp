@@ -1,4 +1,4 @@
-#include "ParticleType.hpp"
+#include "particleType.hpp"
 
 ParticleType::ParticleType(std::string const& name, double mass, int charge)
     : fName{name}, fMass{mass}, fCharge{charge} {}
