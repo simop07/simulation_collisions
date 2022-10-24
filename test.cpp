@@ -1,45 +1,45 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
-#include "Particle.hpp"
-#include "ParticleType.hpp"
-#include "ResonanceType.hpp"
+#include "particle.hpp"
+#include "particleType.hpp"
+#include "resonanceType.hpp"
 #include "doctest.h"
 
 TEST_CASE("ParticleType and ResonanceType") {
-  ParticleType pType1{"electron", 0.511, -1};
-  ParticleType pType2{"proton", 0.937, 1};
+  ParticleType pT1{"e-", 0.511, -1};
+  ParticleType pT2{"p+", 0.937, 1};
 
-  ResonanceType rType1{"res1", 0.423, -1, 0.7};
-  ResonanceType rType2{"res2", 0.836, 1, 0.6};
+  ResonanceType rT1{"k+", 0.423, -1, 0.7};
+  ResonanceType rT2{"k-", 0.836, 1, 0.6};
 
   SUBCASE("Testing methods") {
-    CHECK(pType1.GetName() == ("electron"));
-    CHECK(pType1.GetMass() == doctest::Approx(0.511));
-    CHECK(pType1.GetCharge() == -1);
+    CHECK(pT1.GetName() == ("e-"));
+    CHECK(pT1.GetMass() == doctest::Approx(0.511));
+    CHECK(pT1.GetCharge() == -1);
 
-    CHECK(pType2.GetName() == ("proton"));
-    CHECK(pType2.GetMass() == doctest::Approx(0.937));
-    CHECK(pType2.GetCharge() == 1);
+    CHECK(pT2.GetName() == ("p+"));
+    CHECK(pT2.GetMass() == doctest::Approx(0.937));
+    CHECK(pT2.GetCharge() == 1);
 
-    CHECK(rType1.GetName() == ("res1"));
-    CHECK(rType1.GetMass() == doctest::Approx(0.423));
-    CHECK(rType1.GetCharge() == -1);
-    CHECK(rType1.GetWidth() == doctest::Approx(0.7));
+    CHECK(rT1.GetName() == ("k+"));
+    CHECK(rT1.GetMass() == doctest::Approx(0.423));
+    CHECK(rT1.GetCharge() == -1);
+    CHECK(rT1.GetWidth() == doctest::Approx(0.7));
 
-    CHECK(rType2.GetName() == ("res2"));
-    CHECK(rType2.GetMass() == doctest::Approx(0.836));
-    CHECK(rType2.GetCharge() == 1);
-    CHECK(rType2.GetWidth() == doctest::Approx(0.6));
+    CHECK(rT2.GetName() == ("k-"));
+    CHECK(rT2.GetMass() == doctest::Approx(0.836));
+    CHECK(rT2.GetCharge() == 1);
+    CHECK(rT2.GetWidth() == doctest::Approx(0.6));
 
     // Testing output streams directly on screen
-    pType1.Print();
-    pType2.Print();
-    rType1.Print();
-    rType2.Print();
+    pT1.Print();
+    pT2.Print();
+    rT1.Print();
+    rT2.Print();
   }
 
   SUBCASE("Testing virtual function") {
-    ParticleType* a[2]{&pType1, &rType1};
+    ParticleType* a[2]{&pT1, &rT1};
 
     // Name, mass and charge are printed for ParticleType, while name, mass,
     // charge and width are shown for ResonanceType
@@ -50,36 +50,22 @@ TEST_CASE("ParticleType and ResonanceType") {
 }
 
 TEST_CASE("Particle") {
-  // Checking for runtime error
-  // CHECK_THROWS_AS(Particle par1{"p1"}, std::runtime_error);
-  Particle par1{"p1"};
-  Particle par2{"p2", 2.3e3, -3.43e3, -6.32e3};
+  // Separating outputs for better readability
+  std::cout << "\n****************** Line break ******************\n\n";
 
-  CHECK(par2.GetPx() == 2.3e3);
-  CHECK(par2.GetPy() == -3.43e3);
-  CHECK(par2.GetPz() == -6.32e3);
+  Particle::AddParticleType("e-", 0.511, -1);
+  Particle::AddParticleType("p+", 0.937, 1);
+  Particle::AddParticleType("k+", 0.423, -1, 0.7);
 
-  par1.SetP(1e3, -1e3, 2.1e3);
+  // Checking error in Particle::Particle
+  Particle pTest1{"Not_There"};
 
-  CHECK(par1.GetPx() == 1e3);
-  CHECK(par1.GetPy() == -1e3);
-  CHECK(par1.GetPz() == 2.1e3);
+  // Checking right insertion
+  Particle p1{"e-", 2.3e3, -3.43e3, -6.32e3};
+  Particle p2{"p+"};
+  Particle p3{"k+", 1e3, -1e3, 2.1e3};
 
-  Particle::AddParticleType("electron", 0.511, -1);
-  par1.AddParticleType("kaon", -0.011, 3, 2.4);
-  par2.AddParticleType("proton", 0.937, 1);
-  // Insert tests for code above
-  par1.SetIndex(1);
-  par2.SetIndex(2);
-  // Inssert test for SetIndex(std::string const& name)
-  CHECK(par1.GetIndex() == 1);
-  CHECK(par2.GetIndex() == 2);
-
-  Particle::PrintParticle();
-  // Insert code to test the above
-  /*  par1.PrintIndex();
-   par2.PrintIndex(); */
-  // Insert code to test the above
-  /* Particle::GetSize(); */
-  // Insert code to test the above
+  // Checking error in Particle::AddParticleType
+  Particle::AddParticleType("p+", 0.466, 2, 1.8);
+  Particle::AddParticleType("k+", 0.463, 1, 0.8);
 }
