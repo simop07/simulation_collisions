@@ -36,7 +36,7 @@ class Particle {
 
   double GetEnergy() const;
 
-  double InvMass(Particle const& p) const;
+  double GetInvMass(Particle const& p) const;
 
   void SetP(double px, double py, double pz);
 

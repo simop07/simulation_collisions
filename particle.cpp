@@ -102,10 +102,10 @@ double Particle::GetEnergy() const {
               (fPx * fPx + fPy * fPy + fPz * fPz));
 }
 
-double Particle::InvMass(Particle const& p) const {
+double Particle::GetInvMass(Particle const& p) const {
   return sqrt((GetEnergy() + p.GetEnergy()) * (GetEnergy() + p.GetEnergy()) -
-              (fPx * p.fPx + fPy * p.fPy + fPz * p.fPz) *
-                  (fPx * p.fPx + fPy * p.fPy + fPz * p.fPz));
+              ((fPx + p.fPx) * (fPx + p.fPx) + (fPy + p.fPy) * (fPy + p.fPy) +
+               (fPz + p.fPz) * (fPz + p.fPz)));
 }
 
 void Particle::SetP(double px, double py, double pz) {
