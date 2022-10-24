@@ -14,6 +14,7 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
 - Verificare la possibilità di controllo nell'input.
 - Cambiare nomi (e dati??) coerenti nei test
 - Using namespace std?? -> Direi di sì
+- Usare CMake?
 - **Aggiungere commenti**
 - Scrivere che è normale ottenere dei memory leak, basta verificarlo con fSanitize..., e spiegare perché non si può agire con una delete per risolverli (poichéa ltrimenti gli oggetti muoiono non appena il programma finisce e non viene visualizzato nulla, un po' come il DrawCopy).
 - Aggiungere indirizzo di Github nella relazione, assieme a tutto ciò che riguarda:
