@@ -45,8 +45,8 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
     fParticleType.push_back(resT);
 
     // ??
-    std::cout << "\n\nInserted particle \'" << name << "\' in index " << index
-              << " .\n\n";
+    std::cout << "Inserted particle \'" << name << "\' in index " << index
+              << ".\n";
   }
 }
 
