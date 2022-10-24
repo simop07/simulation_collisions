@@ -20,7 +20,6 @@ class Particle {
 
   void SetIndex(std::string const& name);
 
-  // stampa l'intero contenuto dell'array di puntatori a particleType
   static void PrintParticle();
 
   void PrintIndex() const;
@@ -33,7 +32,7 @@ class Particle {
 
   double GetIndexMass() const;
 
-  // Particle& operator+=(Particle const& p);
+  // Particle& operator+=(Particle const& p);??
 
   double GetEnergy() const;
 
@@ -41,6 +40,7 @@ class Particle {
 
   void SetP(double px, double py, double pz);
 
+  // Used to get vector's size
   static int GetSize();
 
  private:

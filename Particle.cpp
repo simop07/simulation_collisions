@@ -1,28 +1,23 @@
 #include "Particle.hpp"
-//#include <cassert>
-//#include <stdexcept>
-//#include <iterator>
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 
 Particle::Particle(std::string const& name, double px, double py, double pz)
     : fPx{px}, fPy{py}, fPz{pz} {
   auto index = FindParticle(name);
 
-  // Converting unsigned int in signed int
+  // Converting unsigned int in signed int to make comparisons without narrowing
   auto size = GetSize();
 
-  // scrivere la possibilità di riprovare??
-  // lasciare throw
   if (index == size) {
-    // throw std::runtime_error{"Invalid input: no correspondence found.\n"};
-    std::cout << "No correspondence found\n";
+    std::cerr << "No matches found for particle \'" << name << "\'.\n";
   } else {
     fIndex = index;
   }
 
-  // assert(fIndex != size);
+  assert(fIndex != size);
 }
 
 std::vector<ParticleType*> Particle::fParticleType{};
@@ -43,28 +38,31 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
   auto index = FindParticle(name);
   auto size = GetSize();
 
-  if (index == size) {
-    // std::cerr << "Invalid input: particle already inserted.\n";
-    std::cout << "Particle already inserted.\n";
+  if (index != size) {
+    std::cerr << "Particle \'" << name << "\' already inserted.\n";
   } else {
     ResonanceType* resT = new ResonanceType{name, mass, charge, width};
     fParticleType.push_back(resT);
+
+    // ??
+    std::cout << "\n\nInserted particle \'" << name << "\' in index " << index
+              << " .\n\n";
   }
 }
 
 // inserire un cout che avverta della scelta??
-void Particle::SetIndex(int index) { fIndex = index; }
-
-void Particle::SetIndex(std::string const& name) {
-  auto index = FindParticle(name);
+void Particle::SetIndex(int index) {
   auto size = GetSize();
 
-  if (index == size) {
-    // std::cerr << "Invalid input: particle not found.\n";
-    std::cout << "Particle not found.\n";
+  if (index >= size) {
+    std::cerr << "Particle not found.\n";
   } else {
     fIndex = index;
   }
+}
+
+void Particle::SetIndex(std::string const& name) {
+  SetIndex(FindParticle(name));
 }
 
 void Particle::PrintParticle() {
