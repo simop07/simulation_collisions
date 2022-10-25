@@ -16,10 +16,12 @@ TEST_CASE("ParticleType and ResonanceType") {
     CHECK(pT1.GetName() == ("e-"));
     CHECK(pT1.GetMass() == doctest::Approx(0.511));
     CHECK(pT1.GetCharge() == -1);
+    CHECK(pT1.GetWidth() == 0);
 
     CHECK(pT2.GetName() == ("p+"));
     CHECK(pT2.GetMass() == doctest::Approx(10e3));
     CHECK(pT2.GetCharge() == 1);
+    CHECK(pT2.GetWidth() == 0);
 
     CHECK(rT1.GetName() == ("k+"));
     CHECK(rT1.GetMass() == doctest::Approx(0.423));
@@ -51,8 +53,8 @@ TEST_CASE("ParticleType and ResonanceType") {
 
 TEST_CASE("Particle") {
   // Separating outputs for better readability
-  std::string s{"\n****************** Line break ******************\n\n"};
-  std::cout << s;
+  std::string s{"\n****************** Line break ******************\n"};
+  std::cout << s << '\n';
 
   Particle::AddParticleType("e-", 0.511, -1);
   Particle::AddParticleType("p+", 10e3, 1);
@@ -86,53 +88,54 @@ TEST_CASE("Particle") {
 
   std::cout << s;
 
-  SUBCASE("Testing PrintIndex") {
-    p1.PrintIndex();
-    p2.PrintIndex();
-    p3.PrintIndex();
+  p1.PrintIndex();
+  p2.PrintIndex();
+  p3.PrintIndex();
 
+  SUBCASE("Testing Set/GetIndex") {
     p1.SetIndex(1);
     p1.PrintIndex();
 
     CHECK(p1.GetIndex() == 1);
     CHECK(p2.GetIndex() == 1);
+
+    p1.SetIndex("p+");
+    CHECK(p1.GetIndex() == 1);
+    p1.SetIndex(0);
   }
 
-  SUBCASE("Testing GetP") {
-    CHECK(p1.GetPx() == doctest::Approx(2.3e3));
-    CHECK(p1.GetPy() == doctest::Approx(-3.43e3));
-    CHECK(p1.GetPz() == doctest::Approx(-6.32e3));
-    CHECK(p2.GetPx() == doctest::Approx(0.));
-    CHECK(p2.GetPy() == doctest::Approx(0.));
-    CHECK(p2.GetPz() == doctest::Approx(0.));
-    CHECK(p3.GetPx() == doctest::Approx(1e3));
-    CHECK(p3.GetPy() == doctest::Approx(-1e3));
-    CHECK(p3.GetPz() == doctest::Approx(2.1e3));
-  }
+  CHECK(p1.GetIndex() == 0);
 
-  SUBCASE("Testing GetIndexMass") {
-    CHECK(p1.GetIndexMass() == doctest::Approx(0.511));
-    CHECK(p2.GetIndexMass() == doctest::Approx(10e3));
-    CHECK(p3.GetIndexMass() == doctest::Approx(0.423));
-  }
+  // Testing GetP
+  CHECK(p1.GetPx() == doctest::Approx(2.3e3));
+  CHECK(p1.GetPy() == doctest::Approx(-3.43e3));
+  CHECK(p1.GetPz() == doctest::Approx(-6.32e3));
+  CHECK(p2.GetPx() == doctest::Approx(0.));
+  CHECK(p2.GetPy() == doctest::Approx(0.));
+  CHECK(p2.GetPz() == doctest::Approx(0.));
+  CHECK(p3.GetPx() == doctest::Approx(1e3));
+  CHECK(p3.GetPy() == doctest::Approx(-1e3));
+  CHECK(p3.GetPz() == doctest::Approx(2.1e3));
 
-  SUBCASE("Testing GetEnergy") {
-    CHECK(p1.GetEnergy() == doctest::Approx(7549.66).epsilon(1.));
-    CHECK(p2.GetEnergy() == doctest::Approx(10e3).epsilon(1.));
-    CHECK(p3.GetEnergy() == doctest::Approx(2531.8));
-  }
+  // Testing GetIndexMass
+  CHECK(p1.GetIndexMass() == doctest::Approx(0.511));
+  CHECK(p2.GetIndexMass() == doctest::Approx(10e3));
+  CHECK(p3.GetIndexMass() == doctest::Approx(0.423));
 
-  SUBCASE("Testing GetInvMass") {
-    CHECK(p1.GetInvMass(p2) == doctest::Approx(15842).epsilon(1.));
-    CHECK(p2.GetInvMass(p3) == doctest::Approx(12273).epsilon(1.));
-    CHECK(p3.GetInvMass(p1) == doctest::Approx(7301).epsilon(1.));
-  }
+  // "Testing GetEnergy
+  CHECK(p1.GetEnergy() == doctest::Approx(7549.66).epsilon(1.));
+  CHECK(p2.GetEnergy() == doctest::Approx(10e3).epsilon(1.));
+  CHECK(p3.GetEnergy() == doctest::Approx(2531.8));
 
-  SUBCASE("Testing SetP") {
-    p2.SetP(1e3, -4e3, -5e3);
+  // Testing GetInvMass
+  CHECK(p1.GetInvMass(p2) == doctest::Approx(15842).epsilon(1.));
+  CHECK(p2.GetInvMass(p3) == doctest::Approx(12273).epsilon(1.));
+  CHECK(p3.GetInvMass(p1) == doctest::Approx(7301).epsilon(1.));
 
-    CHECK(p2.GetPx() == doctest::Approx(1e3));
-    CHECK(p2.GetPy() == doctest::Approx(-4e3));
-    CHECK(p2.GetPz() == doctest::Approx(-5e3));
-  }
+  // Testing SetP
+  p2.SetP(1e3, -4e3, -5e3);
+
+  CHECK(p2.GetPx() == doctest::Approx(1e3));
+  CHECK(p2.GetPy() == doctest::Approx(-4e3));
+  CHECK(p2.GetPz() == doctest::Approx(-5e3));
 }
