@@ -9,6 +9,8 @@ double ParticleType::GetMass() const { return fMass; }
 
 int ParticleType::GetCharge() const { return fCharge; }
 
+double ParticleType::GetWidth() const { return 0; }
+
 // Printing data with same spacing
 void ParticleType::Print() const {
   using namespace std;
