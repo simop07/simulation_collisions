@@ -6,11 +6,11 @@
 #include "resonanceType.hpp"
 
 TEST_CASE("ParticleType and ResonanceType") {
-  ParticleType pT1{"e-", 0.511, -1};
-  ParticleType pT2{"p+", 10e3, 1};
+  ParticleType const pT1{"e-", 0.511, -1};
+  ParticleType const pT2{"p+", 10e3, 1};
 
-  ResonanceType rT1{"k+", 0.423, -1, 0.7};
-  ResonanceType rT2{"k-", 0.836, 1, 0.6};
+  ResonanceType const rT1{"k+", 0.423, -1, 0.7};
+  ResonanceType const rT2{"k-", 0.836, 1, 0.6};
 
   SUBCASE("Testing methods") {
     CHECK(pT1.GetName() == ("e-"));
@@ -41,7 +41,8 @@ TEST_CASE("ParticleType and ResonanceType") {
   }
 
   SUBCASE("Testing virtual function") {
-    ParticleType* a[2]{&pT1, &rT1};
+    // const here is needed
+    ParticleType const* a[2]{&pT1, &rT1};
 
     // Name, mass and charge are printed for ParticleType, while name, mass,
     // charge and width are shown for ResonanceType
@@ -66,7 +67,7 @@ TEST_CASE("Particle") {
   // Checking right insertion
   Particle p1{"e-", 2.3e3, -3.43e3, -6.32e3};
   Particle p2{"p+"};
-  Particle p3{"k+", 1e3, -1e3, 2.1e3};
+  Particle const p3{"k+", 1e3, -1e3, 2.1e3};
 
   CHECK(Particle::GetSize() == 3);
 
