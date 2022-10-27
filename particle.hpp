@@ -40,7 +40,7 @@ class Particle {
 
   void SetP(double px, double py, double pz);
 
-  // Used to get vector's size
+  // Used to get vector's size in tests and in member funtions above
   static int GetSize();
 
  private:

@@ -27,7 +27,7 @@ int Particle::FindParticle(std::string const& particleName) {
       fParticleType.begin(), fParticleType.end(),
       [&](ParticleType* p) { return particleName == p->GetName(); });
 
-  // Findng position of iterator
+  // Findng iterator position
   return it - fParticleType.begin();
 }
 
@@ -95,7 +95,7 @@ double Particle::GetIndexMass() const {
   fPy += p.fPy;
   fPy += p.fPz;
   return *this;
-} */
+} ??*/
 
 double Particle::GetEnergy() const {
   return sqrt(GetIndexMass() * GetIndexMass() +
