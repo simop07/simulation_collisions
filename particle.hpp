@@ -40,8 +40,11 @@ class Particle {
 
   void SetP(double px, double py, double pz);
 
-  // Used to get vector's size in tests and in member funtions above
+  // Used to get fParticleType's size in tests and in member funtions above
   static int GetSize();
+
+  // Decay in two particles
+  int Decay2Body(Particle const& dau1, Particle const& dau2) const;
 
  private:
   static std::vector<ParticleType*> fParticleType;
@@ -51,6 +54,8 @@ class Particle {
   double fPz;
 
   static int FindParticle(std::string const& particleName);
+
+  void Boost(double bx, double by, double bz);
 };
 
 #endif
