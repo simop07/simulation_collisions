@@ -2,3 +2,6 @@
 .vscode
 *Info.pdf
 *.txt
+*.d
+*.so
+*.pcm

@@ -86,9 +86,7 @@ double Particle::GetPy() const { return fPy; }
 
 double Particle::GetPz() const { return fPz; }
 
-double Particle::GetIndexMass() const {
-  return fParticleType[fIndex]->GetMass();
-}
+double Particle::GetMass() const { return fParticleType[fIndex]->GetMass(); }
 
 /* Particle& Particle::operator+=(Particle const& p) {
   fPx += p.fPx;
@@ -98,8 +96,7 @@ double Particle::GetIndexMass() const {
 } ??*/
 
 double Particle::GetEnergy() const {
-  return sqrt(GetIndexMass() * GetIndexMass() +
-              (fPx * fPx + fPy * fPy + fPz * fPz));
+  return sqrt(GetMass() * GetMass() + (fPx * fPx + fPy * fPy + fPz * fPz));
 }
 
 double Particle::GetInvMass(Particle const& p) const {
@@ -119,10 +116,9 @@ int Particle::GetSize() {
   return size;
 }
 
-// controlla se va il const, ma non credo ??
 int Particle::Decay2Body(Particle& dau1, Particle& dau2) const {
-  if (GetMass() == 0.0) {
-    printf("Decayment cannot be preformed if mass is zero\n");
+  if (GetMass() == 0.) {
+    printf("Decayment cannot be preformed if mass is zero.\n");
     return 1;
   }
 
@@ -147,13 +143,13 @@ int Particle::Decay2Body(Particle& dau1, Particle& dau2) const {
     y1 = x1 * w;
     y2 = x2 * w;
 
-    massMot += fParticleType[fIParticle]->GetWidth() * y1;
+    massMot += fParticleType[fIndex]->GetWidth() * y1;
   }
 
   if (massMot < massDau1 + massDau2) {
     printf(
         "Decayment cannot be preformed because mass is too low in this "
-        "channel\n");
+        "channel.\n");
     return 2;
   }
 

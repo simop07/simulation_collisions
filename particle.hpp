@@ -30,7 +30,7 @@ class Particle {
 
   double GetPz() const;
 
-  double GetIndexMass() const;
+  double GetMass() const;
 
   // Particle& operator+=(Particle const& p);??
 
@@ -44,7 +44,7 @@ class Particle {
   static int GetSize();
 
   // Decay in two particles
-  int Decay2Body(Particle const& dau1, Particle const& dau2) const;
+  int Decay2Body(Particle & dau1, Particle & dau2) const;
 
  private:
   static std::vector<ParticleType*> fParticleType;
