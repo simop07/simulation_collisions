@@ -231,3 +231,5 @@ void simulation() {
 
   file->Close();
 }
+
+int main() { simulation(); }
