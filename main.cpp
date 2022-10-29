@@ -1,7 +1,10 @@
 #include <algorithm>
 #include <array>
 
+#include "TCanvas.h"
+#include "TFile.h"
 #include "TH1F.h"
+#include "TH2F.h"
 #include "TMath.h"
 #include "TRandom.h"
 #include "particle.hpp"
@@ -10,6 +13,8 @@
 
 int main() {
   gRandom->SetSeed();
+
+  TFile* file = new TFile("simulation_collisions.root", "RECREATE");
 
   // \u03C0 is the unicode escape character for lowercase greek letter pi
   Particle::AddParticleType("\u03C0+", 0.13957, 1);
@@ -52,7 +57,24 @@ int main() {
   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
   TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
-  TH1F* h7 = new TH1F("h7", "Invariant mass for all particles", 80, 0, 2);
+  TH1F* h7 = new TH1F(
+      "h7", "Invariant mass for particles with discordant charge", 80, 0, 2);
+  TH1F* h8 = new TH1F(
+      "h8", "Invariant mass for particles with concordant charge", 80, 0, 2);
+  TH1F* h9 =
+      new TH1F("h9", "Invariant mass for particles pion+/kaon- and pion-/kaon+",
+               80, 0, 2);
+  TH1F* h10 = new TH1F(
+      "h10", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
+      2);
+  TH1F* h11 = new TH1F(
+      "h11", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
+      2);
+
+  TH1F* h12 = new TH1F("h12", "benchmark", 80, 0, 2);
+
+  /* TH2F* h12 = new TH2F("h12", "Azimuthal and polar angles distribution", 1e3,
+     0, 2 * TMath::Pi(), 1e3, 0, TMath::Pi()); */
 
   double phi{};
   double theta{};
@@ -122,6 +144,9 @@ int main() {
                       }
                       eventParticles[effectiveSize] = dau1;
                       eventParticles[effectiveSize + 1] = dau2;
+
+                      h12->Fill(dau1.GetInvMass(dau2));
+
                       effectiveSize = effectiveSize + 2;
                     }
                   });
@@ -135,8 +160,25 @@ int main() {
 
     std::for_each(eventParticles.begin(), it, [&](Particle const& par_i) {
       auto nx = std::next((eventParticles.begin() + i));
+
       std::for_each(nx, it, [&](Particle const& par_j) {
-        h7->Fill(par_i.GetInvMass(par_j));
+        if (par_i.GetCharge() * par_j.GetCharge() < 0) {
+          h7->Fill(par_i.GetInvMass(par_j));
+          if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 3) ||
+               (par_i.GetIndex() == 3 && par_j.GetIndex() == 4)) ||
+              ((par_i.GetIndex() == 5 && par_j.GetIndex() == 2) ||
+               (par_i.GetIndex() == 2 && par_j.GetIndex() == 5))) {
+            h9->Fill(par_i.GetInvMass(par_j));
+          }
+        } else if (par_i.GetCharge() * par_j.GetCharge() > 0) {
+          h8->Fill(par_i.GetInvMass(par_j));
+          if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 2) ||
+               (par_i.GetIndex() == 2 && par_j.GetIndex() == 4)) ||
+              ((par_i.GetIndex() == 5 && par_j.GetIndex() == 3) ||
+               (par_i.GetIndex() == 3 && par_j.GetIndex() == 5))) {
+            h10->Fill(par_i.GetInvMass(par_j));
+          }
+        }
       });
 
       ++n;
@@ -144,4 +186,50 @@ int main() {
 
     std::fill(eventParticles.begin(), it, Particle());
   }
+
+  // Creating Canvas
+  TCanvas* c = new TCanvas("c1", "Generation particles", 200, 10, 600, 400);
+
+  // 4 columns, 3 lines
+  c->Divide(4, 3);
+
+  c->cd(1);
+  h1->Draw("H");
+  h1->Draw("E,P,SAME");
+  c->cd(2);
+  h2->Draw("H");
+  h2->Draw("E,P,SAME");
+  c->cd(3);
+  h3->Draw("H");
+  h3->Draw("E,P,SAME");
+  c->cd(4);
+  h4->Draw("H");
+  h4->Draw("E,P,SAME");
+  c->cd(5);
+  h5->Draw("H");
+  h5->Draw("E,P,SAME");
+  c->cd(6);
+  h6->Draw("H");
+  h6->Draw("E,P,SAME");
+  c->cd(7);
+  h7->Draw("H");
+  h7->Draw("E,P,SAME");
+  c->cd(8);
+  h8->Draw("H");
+  h8->Draw("E,P,SAME");
+  c->cd(9);
+  h9->Draw("H");
+  h9->Draw("E,P,SAME");
+  c->cd(10);
+  h10->Draw("H");
+  h10->Draw("E,P,SAME");
+  c->cd(11);
+  h11->Draw("H");
+  h11->Draw("E,P,SAME");
+  c->cd(12);
+  h12->Draw("H");
+  h12->Draw("E,P,SAME");
+  /*  h12->Draw("SURF1"); */
+
+  file->Close();
 }
