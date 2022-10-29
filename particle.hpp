@@ -10,6 +10,8 @@ class Particle {
  public:
   Particle(std::string const& name, double px = 0., double py = 0.,
            double pz = 0.);
+  // Default constructor
+  Particle();
 
   int GetIndex() const;
 
@@ -44,7 +46,7 @@ class Particle {
   static int GetSize();
 
   // Decay in two particles
-  int Decay2Body(Particle & dau1, Particle & dau2) const;
+  int Decay2Body(Particle& dau1, Particle& dau2) const;
 
  private:
   static std::vector<ParticleType*> fParticleType;

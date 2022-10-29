@@ -20,6 +20,8 @@ Particle::Particle(std::string const& name, double px, double py, double pz)
   assert(fIndex != size);
 }
 
+Particle::Particle() { fIndex = -1; }
+
 std::vector<ParticleType*> Particle::fParticleType{};
 
 int Particle::FindParticle(std::string const& particleName) {
@@ -54,7 +56,8 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
 void Particle::SetIndex(int index) {
   auto size = GetSize();
 
-  if (index >= size) {
+  // < -1 is used because default constructor sets fIndex to -1
+  if (index >= size || index < -1) {
     std::cerr << "Particle not found.\n";
   } else {
     fIndex = index;
