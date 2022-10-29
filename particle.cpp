@@ -91,13 +91,6 @@ double Particle::GetPz() const { return fPz; }
 
 double Particle::GetMass() const { return fParticleType[fIndex]->GetMass(); }
 
-/* Particle& Particle::operator+=(Particle const& p) {
-  fPx += p.fPx;
-  fPy += p.fPy;
-  fPy += p.fPz;
-  return *this;
-} ??*/
-
 double Particle::GetEnergy() const {
   return sqrt(GetMass() * GetMass() + (fPx * fPx + fPy * fPy + fPz * fPz));
 }
@@ -118,6 +111,8 @@ int Particle::GetSize() {
   int size = fParticleType.size();
   return size;
 }
+
+int Particle::GetCharge() const { return fParticleType[fIndex]->GetCharge(); }
 
 int Particle::Decay2Body(Particle& dau1, Particle& dau2) const {
   if (GetMass() == 0.) {

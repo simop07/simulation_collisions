@@ -34,8 +34,6 @@ class Particle {
 
   double GetMass() const;
 
-  // Particle& operator+=(Particle const& p);??
-
   double GetEnergy() const;
 
   double GetInvMass(Particle const& p) const;
@@ -44,6 +42,8 @@ class Particle {
 
   // Used to get fParticleType's size in tests and in member funtions above
   static int GetSize();
+
+  int GetCharge() const;
 
   // Decay in two particles
   int Decay2Body(Particle& dau1, Particle& dau2) const;
