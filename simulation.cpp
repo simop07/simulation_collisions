@@ -11,7 +11,7 @@
 #include "particleType.hpp"
 #include "resonanceType.hpp"
 
-int main() {
+void simulation() {
   gRandom->SetSeed();
 
   TFile* file = new TFile("simulation_collisions.root", "RECREATE");
@@ -83,7 +83,7 @@ int main() {
   double yRNDM{};
 
   for (int i{}; i != nGen; ++i) {
-    int effectiveSize{};
+    int effectiveSize{100};
 
     for (int j{}; j != nPar; ++j) {
       Particle particle;
@@ -115,8 +115,6 @@ int main() {
 
       eventParticles[j] = particle;
 
-      effectiveSize = j;
-
       h1->Fill(particle.GetIndex());
       h2->Fill(phi);
       h3->Fill(theta);
@@ -134,11 +132,11 @@ int main() {
                       yRNDM = gRandom->Rndm();
 
                       if (yRNDM < 0.5) {
-                        dau1.SetIndex("p+");
+                        dau1.SetIndex("\u03C0+");
                         dau2.SetIndex("K-");
                         par.Decay2Body(dau1, dau2);
                       } else {
-                        dau1.SetIndex("p-");
+                        dau1.SetIndex("\u03C0-");
                         dau2.SetIndex("K+");
                         par.Decay2Body(dau1, dau2);
                       }
@@ -147,44 +145,45 @@ int main() {
 
                       h12->Fill(dau1.GetInvMass(dau2));
 
-                      effectiveSize = effectiveSize + 2;
+                      effectiveSize += 2;
                     }
                   });
-
-    // Getting iterator to last not empty particle
-    auto it = &eventParticles.back();
 
     // Variable needed to find all combinations of the particles that are in the
     // array, taken at groups of two
     int n{};
 
-    std::for_each(eventParticles.begin(), it, [&](Particle const& par_i) {
-      auto nx = std::next((eventParticles.begin() + i));
+    std::for_each(
+        eventParticles.begin(), eventParticles.begin() + effectiveSize - 1,
+        [&](Particle const& par_i) {
+          auto nx = std::next((eventParticles.begin() + n));
 
-      std::for_each(nx, it, [&](Particle const& par_j) {
-        if (par_i.GetCharge() * par_j.GetCharge() < 0) {
-          h7->Fill(par_i.GetInvMass(par_j));
-          if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 3) ||
-               (par_i.GetIndex() == 3 && par_j.GetIndex() == 4)) ||
-              ((par_i.GetIndex() == 5 && par_j.GetIndex() == 2) ||
-               (par_i.GetIndex() == 2 && par_j.GetIndex() == 5))) {
-            h9->Fill(par_i.GetInvMass(par_j));
-          }
-        } else if (par_i.GetCharge() * par_j.GetCharge() > 0) {
-          h8->Fill(par_i.GetInvMass(par_j));
-          if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 2) ||
-               (par_i.GetIndex() == 2 && par_j.GetIndex() == 4)) ||
-              ((par_i.GetIndex() == 5 && par_j.GetIndex() == 3) ||
-               (par_i.GetIndex() == 3 && par_j.GetIndex() == 5))) {
-            h10->Fill(par_i.GetInvMass(par_j));
-          }
-        }
-      });
+          std::for_each(
+              nx, eventParticles.begin() + effectiveSize - 1,
+              [&](Particle const& par_j) {
+                if (par_i.GetCharge() * par_j.GetCharge() < 0) {
+                  h7->Fill(par_i.GetInvMass(par_j));
+                  if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 3) ||
+                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 4)) ||
+                      ((par_i.GetIndex() == 5 && par_j.GetIndex() == 2) ||
+                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 5))) {
+                    h9->Fill(par_i.GetInvMass(par_j));
+                  }
+                } else if (par_i.GetCharge() * par_j.GetCharge() > 0) {
+                  h8->Fill(par_i.GetInvMass(par_j));
+                  if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 2) ||
+                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 4)) ||
+                      ((par_i.GetIndex() == 5 && par_j.GetIndex() == 3) ||
+                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 5))) {
+                    h10->Fill(par_i.GetInvMass(par_j));
+                  }
+                }
+              });
 
-      ++n;
-    });
+          ++n;
+        });
 
-    std::fill(eventParticles.begin(), it, Particle());
+    std::fill(eventParticles.begin(), eventParticles.end(), Particle());
   }
 
   // Creating Canvas
@@ -194,42 +193,41 @@ int main() {
   c->Divide(4, 3);
 
   c->cd(1);
-  h1->Draw("H");
-  h1->Draw("E,P,SAME");
+  h1->DrawCopy("H");
+  h1->DrawCopy("E,P,SAME");
   c->cd(2);
-  h2->Draw("H");
-  h2->Draw("E,P,SAME");
+  h2->DrawCopy("H");
+  h2->DrawCopy("E,P,SAME");
   c->cd(3);
-  h3->Draw("H");
-  h3->Draw("E,P,SAME");
+  h3->DrawCopy("H");
+  h3->DrawCopy("E,P,SAME");
   c->cd(4);
-  h4->Draw("H");
-  h4->Draw("E,P,SAME");
+  h4->DrawCopy("H");
+  h4->DrawCopy("E,P,SAME");
   c->cd(5);
-  h5->Draw("H");
-  h5->Draw("E,P,SAME");
+  h5->DrawCopy("H");
+  h5->DrawCopy("E,P,SAME");
   c->cd(6);
-  h6->Draw("H");
-  h6->Draw("E,P,SAME");
+  h6->DrawCopy("H");
+  h6->DrawCopy("E,P,SAME");
   c->cd(7);
-  h7->Draw("H");
-  h7->Draw("E,P,SAME");
+  h7->DrawCopy("H");
+  h7->DrawCopy("E,P,SAME");
   c->cd(8);
-  h8->Draw("H");
-  h8->Draw("E,P,SAME");
+  h8->DrawCopy("H");
+  h8->DrawCopy("E,P,SAME");
   c->cd(9);
-  h9->Draw("H");
-  h9->Draw("E,P,SAME");
+  h9->DrawCopy("H");
+  h9->DrawCopy("E,P,SAME");
   c->cd(10);
-  h10->Draw("H");
-  h10->Draw("E,P,SAME");
+  h10->DrawCopy("H");
+  h10->DrawCopy("E,P,SAME");
   c->cd(11);
-  h11->Draw("H");
-  h11->Draw("E,P,SAME");
+  h11->DrawCopy("H");
+  h11->DrawCopy("E,P,SAME");
   c->cd(12);
-  h12->Draw("H");
-  h12->Draw("E,P,SAME");
-  /*  h12->Draw("SURF1"); */
+  h12->DrawCopy("H");
+  h12->DrawCopy("E,P,SAME");
 
   file->Close();
 }
