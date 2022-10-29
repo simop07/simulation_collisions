@@ -118,10 +118,15 @@ TEST_CASE("Particle") {
   CHECK(p3.GetPy() == doctest::Approx(-1e3));
   CHECK(p3.GetPz() == doctest::Approx(2.1e3));
 
-  // Testing GetIndexMass
-  CHECK(p1.GetIndexMass() == doctest::Approx(0.511));
-  CHECK(p2.GetIndexMass() == doctest::Approx(10e3));
-  CHECK(p3.GetIndexMass() == doctest::Approx(0.423));
+  // Testing GetMass
+  CHECK(p1.GetMass() == doctest::Approx(0.511));
+  CHECK(p2.GetMass() == doctest::Approx(10e3));
+  CHECK(p3.GetMass() == doctest::Approx(0.423));
+
+  // Testing GetCharge
+  CHECK(p1.GetCharge() == -1);
+  CHECK(p2.GetCharge() == 1);
+  CHECK(p3.GetCharge() == -1);
 
   // "Testing GetEnergy
   CHECK(p1.GetEnergy() == doctest::Approx(7549.66).epsilon(1.));
