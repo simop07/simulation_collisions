@@ -83,30 +83,30 @@ int main() {
   double yRNDM{};
 
   for (int i{}; i != nGen; ++i) {
-    Particle particle;
-
     int effectiveSize{};
 
     for (int j{}; j != nPar; ++j) {
+      Particle particle;
+
       phi = gRandom->Uniform(0, 2 * TMath::Pi());
       theta = gRandom->Uniform(0, TMath::Pi());
       p = gRandom->Exp(1);
       xRNDM = gRandom->Rndm();
 
-      if (xRNDM < 0.01) {
-        particle.SetIndex("K*");
-      } else if (xRNDM < 0.055) {
-        particle.SetIndex("p+");
-      } else if (xRNDM < 0.1) {
-        particle.SetIndex("p-");
-      } else if (xRNDM < 0.15) {
+      if (xRNDM < 0.4) {
+        particle.SetIndex("\u03C0+");
+      } else if (xRNDM < 0.8) {
+        particle.SetIndex("\u03C0-");
+      } else if (xRNDM < 0.85) {
         particle.SetIndex("K+");
-      } else if (xRNDM < 0.2) {
+      } else if (xRNDM < 0.90) {
         particle.SetIndex("K-");
-      } else if (xRNDM < 0.6) {
-        particle.SetIndex("\u03C0+");
+      } else if (xRNDM < 0.945) {
+        particle.SetIndex("p+");
+      } else if (xRNDM < 0.99) {
+        particle.SetIndex("p-");
       } else {
-        particle.SetIndex("\u03C0+");
+        particle.SetIndex("K*");
       }
 
       particle.SetP(p * TMath::Sin(theta) * TMath::Cos(phi),
