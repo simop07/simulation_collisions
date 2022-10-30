@@ -73,7 +73,11 @@ void simulation() {
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
 
+// Vector used to draw histograms with for loop
   std::vector<TH1F*> v{};
+// This method allocates memory for 11 elements inside vector (even if they aren't inserted yet). It slightly improves initial loading performance.
+v.reserve(11);
+
   v.push_back(h1);
   v.push_back(h2);
   v.push_back(h3);
@@ -234,26 +238,3 @@ int main() {
   simulation();
   return EXIT_SUCCESS;
 }
-
-/*     // Cosmetics
-     h[i]->SetLineColor(1);
-     h[i]->GetYaxis()->SetTitleOffset(1.2);
-     h[i]->GetXaxis()->SetTitleSize(0.04);
-     h[i]->GetYaxis()->SetTitleSize(0.04);
-     h[i]->GetXaxis()->SetTitle("x");
-     h[i]->GetYaxis()->SetTitle("Entries");
-     h[i]->Sumw2();  // Important for mass invariant */
-/*   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
-  TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
-  TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
-  TH1F* h7 = new TH1F(
-      "h7", "Invariant mass for particles with discordant charge", 80, 0, 2);
-  TH1F* h8 = new TH1F(
-      "h8", "Invariant mass for particles with concordant charge", 80, 0, 2);
-  TH1F* h9 =
-      new TH1F("h9", "Invariant mass for particles pion+/kaon- and
-  pion-/kaon+", 80, 0, 2); TH1F* h10 = new TH1F( "h10", "Invariant mass for
-  particles pion+/kaon+ and pion-/kaon-", 80, 0, 2);
-
-  TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
- */
