@@ -14,6 +14,7 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
 - Cosmetica (in realtà può bastare questo, al massimo confontarsi sui loop ma va bene anche così)
 - Relazione
 - Eventuale legenda
+- Vedi se effettivamente il Cmake è fattibile (dovrebbe essere l'unico modo per visualizzare la Canvas quando si compila in shell).
 
 ## Note
 
