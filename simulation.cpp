@@ -56,8 +56,6 @@ void simulation() {
   TH1F* h2 =
       new TH1F("h2", "Azimuthal angle distribution", 1e3, 0, 2 * TMath::Pi());
   TH1F* h3 = new TH1F("h3", "Polar angle distribution", 1e3, 0, TMath::Pi());
-  TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
-                       -1, 1, 100, -1, 1, 100, -1, 1);
   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
   TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
@@ -72,6 +70,8 @@ void simulation() {
       "h10", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
       2);
   TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
+  TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
+                       -1, 1, 100, -1, 1, 100, -1, 1);
 
   std::vector<TH1F*> v{};
   v.push_back(h1);
@@ -210,8 +210,10 @@ void simulation() {
   canvas->Divide(4, 3);
 
   // Drawing TH1F histograms
-
   for (int q{}; q != 11; ++q) {
+    if (q > 5 && q < 10) {
+      v[q]->Sumw2();
+    }
     canvas->cd(q + 1);
     v[q]->DrawCopy("H");
     v[q]->DrawCopy("E,P,SAME");

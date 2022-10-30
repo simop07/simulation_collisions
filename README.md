@@ -9,19 +9,21 @@ Ottica](https://www.unibo.it/it/didattica/insegnamenti/insegnamento/2022/434322)
 The project is written in [C++](https://isocpp.org/) language, and it is supported by 
 [ROOT](https://root.cern.ch/) analysis framework. It can be compiled with [GCC](https://gcc.gnu.org/).
 
+## Da Fare
+
+- Cosmetica (in realtà può bastare questo, al massimo confontarsi sui loop ma va bene anche così)
+- Relazione
+- Eventuale legenda
+
 ## Note
 
-- Usare CMake?
-- Verificare la possibilità di controllo nell'input.
-- Cambiare nomi (e dati??) coerenti nei test
-- Using namespace std?? -> Direi di sì
-- Usare CMake?
 - **Aggiungere commenti**, ma non troppi tanto c'è già la relazione di supporto
-- Scrivere che è normale ottenere dei memory leak, basta verificarlo con fSanitize..., e spiegare perché non si può agire con una delete per risolverli (poichéa ltrimenti gli oggetti muoiono non appena il programma finisce e non viene visualizzato nulla, un po' come il DrawCopy).
+- Scrivere che è normale ottenere dei memory leak, basta verificarlo con fSanitize..., e spiegare perché non si può agire con una delete per risolverli (poiché altrimenti gli oggetti muoiono non appena il programma finisce e non viene visualizzato nulla, un po' come il DrawCopy).
 - Aggiungere indirizzo di Github nella relazione, assieme a tutto ciò che riguarda:
 
     - Istruzioni di dowload
     - Istruzioni di compilazione
     - Istruzioni di testing
     - Tutto quello che richiede l'Arcelli nel pdf
+    - Aggiunta di verifica indipendenza generazione angolo polare e azimutale
 
