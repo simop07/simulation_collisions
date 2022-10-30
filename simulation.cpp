@@ -1,12 +1,20 @@
+// To compile in shell: "g++ resonanceType.cpp particleType.cpp particle.cpp
+// simulation.cpp `root-config --cflags --libs`"
+
 #include <algorithm>
 #include <array>
+#include <cstdlib>
+#include <vector>
 
 #include "TCanvas.h"
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH2F.h"
+#include "TH3F.h"
 #include "TMath.h"
+#include "TROOT.h"
 #include "TRandom.h"
+#include "TString.h"
 #include "TStyle.h"
 #include "particle.hpp"
 #include "particleType.hpp"
@@ -22,6 +30,11 @@ void setStyle() {
 }
 
 void simulation() {
+  // To avoid reloading manually if .so is present
+  R__LOAD_LIBRARY(particleType_cpp.so);
+  R__LOAD_LIBRARY(resonanceType_cpp.so);
+  R__LOAD_LIBRARY(particle_cpp.so);
+
   gRandom->SetSeed();
 
   // Creating TFile
@@ -38,37 +51,13 @@ void simulation() {
 
   Particle::PrintParticle();
 
-  double nGen{1e5};
-  double nPar{1e2};
-
-  std::array<Particle, 120> eventParticles;
-
-  /* TH1F* h[2];
-  TString histName = "h";
-  TString title[2] = {"generated particle types", "azimuthal and polar angle
-  distribution", "impulse, transverse impulse and particles' energy
-  distribution", "invariant mass"}; for (Int_t i = 0; i < 2; i++) { h[i] = new
-  TH1F(histName + i, title[i], 100, 0, 10);
-    // Cosmetics
-    h[i]->SetLineColor(1);
-    h[i]->GetYaxis()->SetTitleOffset(1.2);
-    h[i]->GetXaxis()->SetTitleSize(0.04);
-    h[i]->GetYaxis()->SetTitleSize(0.04);
-    h[i]->GetXaxis()->SetTitle("x");
-    h[i]->GetYaxis()->SetTitle("Entries");
-    h[i]->Sumw2();  // Important
-  } */
-
+  // Creating histograms
   TH1F* h1 = new TH1F("h1", "Generated particle types", 7, 0, 7);
-
   TH1F* h2 =
       new TH1F("h2", "Azimuthal angle distribution", 1e3, 0, 2 * TMath::Pi());
-
   TH1F* h3 = new TH1F("h3", "Polar angle distribution", 1e3, 0, TMath::Pi());
-
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
-
   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
   TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
@@ -82,11 +71,26 @@ void simulation() {
   TH1F* h10 = new TH1F(
       "h10", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
       2);
-
   TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
 
-  /* TH2F* h12 = new TH2F("h12", "Azimuthal and polar angles distribution", 1e3,
-     0, 2 * TMath::Pi(), 1e3, 0, TMath::Pi()); */
+  std::vector<TH1F*> v{};
+  v.push_back(h1);
+  v.push_back(h2);
+  v.push_back(h3);
+  v.push_back(h4);
+  v.push_back(h5);
+  v.push_back(h6);
+  v.push_back(h7);
+  v.push_back(h8);
+  v.push_back(h9);
+  v.push_back(h10);
+  v.push_back(h11);
+
+  double nGen{1e5};
+  double nPar{1e2};
+
+  // Creating vector of 100+ generated particles
+  std::array<Particle, 120> eventParticles;
 
   double phi{};
   double theta{};
@@ -130,8 +134,8 @@ void simulation() {
       h1->Fill(particle.GetIndex());
       h2->Fill(phi);
       h3->Fill(theta);
-      hSpace->Fill(TMath::Sin(theta) * TMath::Cos(phi),
-                   TMath::Sin(theta) * TMath::Sin(phi), TMath::Cos(theta));
+      h12->Fill(TMath::Sin(theta) * TMath::Cos(phi),
+                TMath::Sin(theta) * TMath::Sin(phi), TMath::Cos(theta));
       h4->Fill(p);
       h5->Fill(TMath::Sqrt(particle.GetPx() * particle.GetPx() +
                            particle.GetPy() * particle.GetPy()));
@@ -192,7 +196,6 @@ void simulation() {
                   }
                 }
               });
-
           ++n;
         });
 
@@ -200,53 +203,55 @@ void simulation() {
   }
 
   // Creating Canvas
-  TCanvas* c = new TCanvas("c1", "Generation particles", 200, 10, 600, 400);
+  TCanvas* canvas =
+      new TCanvas("c1", "Generation particles", 200, 10, 900, 500);
 
-  // 4 columns, 3 lines
-  c->Divide(4, 3);
+  // Dividing canvas in 4 columns, 3 lines
+  canvas->Divide(4, 3);
 
-  c->cd(1);
-  h1->DrawCopy("H");
-  h1->DrawCopy("E,P,SAME");
-  c->cd(2);
-  h2->DrawCopy("H");
-  h2->DrawCopy("E,P,SAME");
-  c->cd(3);
-  h3->DrawCopy("H");
-  h3->DrawCopy("E,P,SAME");
-  c->cd(4);
+  // Drawing TH1F histograms
+
+  for (int q{}; q != 11; ++q) {
+    canvas->cd(q + 1);
+    v[q]->DrawCopy("H");
+    v[q]->DrawCopy("E,P,SAME");
+  };
+
+  // Drawing TH3F histogram
+  canvas->cd(12);
   h12->DrawCopy();
-  c->cd(5);
-  h4->DrawCopy("H");
-  h4->DrawCopy("E,P,SAME");
-  c->cd(6);
-  h5->DrawCopy("H");
-  h5->DrawCopy("E,P,SAME");
-  c->cd(7);
-  h6->DrawCopy("H");
-  h6->DrawCopy("E,P,SAME");
-  c->cd(8);
-  h7->DrawCopy("H");
-  h7->DrawCopy("E,P,SAME");
-  c->cd(9);
-  h8->DrawCopy("H");
-  h8->DrawCopy("E,P,SAME");
-  c->cd(10);
-  h9->DrawCopy("H");
-  h9->DrawCopy("E,P,SAME");
-  c->cd(11);
-  h10->DrawCopy("H");
-  h10->DrawCopy("E,P,SAME");
-  c->cd(12);
-  h11->DrawCopy("H");
-  h11->DrawCopy("E,P,SAME");
 
+  // Writing all on TFile
   file->Write();
   file->Close();
 }
 
-// Add main in order to compile from bash
+// Add main in order to compile from shell
 int main() {
   setStyle();
   simulation();
+  return EXIT_SUCCESS;
 }
+
+/*     // Cosmetics
+     h[i]->SetLineColor(1);
+     h[i]->GetYaxis()->SetTitleOffset(1.2);
+     h[i]->GetXaxis()->SetTitleSize(0.04);
+     h[i]->GetYaxis()->SetTitleSize(0.04);
+     h[i]->GetXaxis()->SetTitle("x");
+     h[i]->GetYaxis()->SetTitle("Entries");
+     h[i]->Sumw2();  // Important for mass invariant */
+/*   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
+  TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
+  TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
+  TH1F* h7 = new TH1F(
+      "h7", "Invariant mass for particles with discordant charge", 80, 0, 2);
+  TH1F* h8 = new TH1F(
+      "h8", "Invariant mass for particles with concordant charge", 80, 0, 2);
+  TH1F* h9 =
+      new TH1F("h9", "Invariant mass for particles pion+/kaon- and
+  pion-/kaon+", 80, 0, 2); TH1F* h10 = new TH1F( "h10", "Invariant mass for
+  particles pion+/kaon+ and pion-/kaon-", 80, 0, 2);
+
+  TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
+ */
