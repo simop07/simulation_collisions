@@ -7,13 +7,24 @@
 #include "TH2F.h"
 #include "TMath.h"
 #include "TRandom.h"
+#include "TStyle.h"
 #include "particle.hpp"
 #include "particleType.hpp"
 #include "resonanceType.hpp"
 
+// Cosmetics
+void setStyle() {
+  gROOT->SetStyle("Plain");
+  gStyle->SetOptStat(1122);
+  gStyle->SetOptFit(111);
+  gStyle->SetPalette(57);
+  gStyle->SetOptTitle(0);
+}
+
 void simulation() {
   gRandom->SetSeed();
 
+  // Creating TFile
   TFile* file = new TFile("simulation_collisions.root", "RECREATE");
 
   // \u03C0 is the unicode escape character for lowercase greek letter pi
@@ -54,6 +65,10 @@ void simulation() {
       new TH1F("h2", "Azimuthal angle distribution", 1e3, 0, 2 * TMath::Pi());
 
   TH1F* h3 = new TH1F("h3", "Polar angle distribution", 1e3, 0, TMath::Pi());
+
+  TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
+                       -1, 1, 100, -1, 1, 100, -1, 1);
+
   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
   TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
@@ -67,11 +82,8 @@ void simulation() {
   TH1F* h10 = new TH1F(
       "h10", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
       2);
-  TH1F* h11 = new TH1F(
-      "h11", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
-      2);
 
-  TH1F* h12 = new TH1F("h12", "benchmark", 80, 0, 2);
+  TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
 
   /* TH2F* h12 = new TH2F("h12", "Azimuthal and polar angles distribution", 1e3,
      0, 2 * TMath::Pi(), 1e3, 0, TMath::Pi()); */
@@ -118,6 +130,8 @@ void simulation() {
       h1->Fill(particle.GetIndex());
       h2->Fill(phi);
       h3->Fill(theta);
+      hSpace->Fill(TMath::Sin(theta) * TMath::Cos(phi),
+                   TMath::Sin(theta) * TMath::Sin(phi), TMath::Cos(theta));
       h4->Fill(p);
       h5->Fill(TMath::Sqrt(particle.GetPx() * particle.GetPx() +
                            particle.GetPy() * particle.GetPy()));
@@ -142,10 +156,9 @@ void simulation() {
                       }
                       eventParticles[effectiveSize] = dau1;
                       eventParticles[effectiveSize + 1] = dau2;
-
-                      h12->Fill(dau1.GetInvMass(dau2));
-
                       effectiveSize += 2;
+
+                      h11->Fill(dau1.GetInvMass(dau2));
                     }
                   });
 
@@ -202,34 +215,38 @@ void simulation() {
   h3->DrawCopy("H");
   h3->DrawCopy("E,P,SAME");
   c->cd(4);
+  h12->DrawCopy();
+  c->cd(5);
   h4->DrawCopy("H");
   h4->DrawCopy("E,P,SAME");
-  c->cd(5);
+  c->cd(6);
   h5->DrawCopy("H");
   h5->DrawCopy("E,P,SAME");
-  c->cd(6);
+  c->cd(7);
   h6->DrawCopy("H");
   h6->DrawCopy("E,P,SAME");
-  c->cd(7);
+  c->cd(8);
   h7->DrawCopy("H");
   h7->DrawCopy("E,P,SAME");
-  c->cd(8);
+  c->cd(9);
   h8->DrawCopy("H");
   h8->DrawCopy("E,P,SAME");
-  c->cd(9);
+  c->cd(10);
   h9->DrawCopy("H");
   h9->DrawCopy("E,P,SAME");
-  c->cd(10);
+  c->cd(11);
   h10->DrawCopy("H");
   h10->DrawCopy("E,P,SAME");
-  c->cd(11);
+  c->cd(12);
   h11->DrawCopy("H");
   h11->DrawCopy("E,P,SAME");
-  c->cd(12);
-  h12->DrawCopy("H");
-  h12->DrawCopy("E,P,SAME");
 
+  file->Write();
   file->Close();
 }
 
-int main() { simulation(); }
+// Add main in order to compile from bash
+int main() {
+  setStyle();
+  simulation();
+}

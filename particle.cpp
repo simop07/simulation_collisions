@@ -46,13 +46,11 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
     ResonanceType* resT = new ResonanceType{name, mass, charge, width};
     fParticleType.push_back(resT);
 
-    // ??
     std::cout << "Inserted particle \'" << name << "\' in index " << index
               << ".\n";
   }
 }
 
-// inserire un cout che avverta della scelta??
 void Particle::SetIndex(int index) {
   auto size = GetSize();
 
