@@ -2,9 +2,7 @@
 // simulation.cpp `root-config --cflags --libs`"
 
 #include <algorithm>
-#include <array>
 #include <cstdlib>
-#include <vector>
 
 #include "TCanvas.h"
 #include "TFile.h"
@@ -35,6 +33,7 @@ void simulation() {
   R__LOAD_LIBRARY(resonanceType_cpp.so);
   R__LOAD_LIBRARY(particle_cpp.so);
 
+  // Generating random generator seed
   gRandom->SetSeed();
 
   // Creating TFile
@@ -72,23 +71,6 @@ void simulation() {
   TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
-
-// Vector used to draw histograms with for loop
-  std::vector<TH1F*> v{};
-// This method allocates memory for 11 elements inside vector (even if they aren't inserted yet). It slightly improves initial loading performance.
-v.reserve(11);
-
-  v.push_back(h1);
-  v.push_back(h2);
-  v.push_back(h3);
-  v.push_back(h4);
-  v.push_back(h5);
-  v.push_back(h6);
-  v.push_back(h7);
-  v.push_back(h8);
-  v.push_back(h9);
-  v.push_back(h10);
-  v.push_back(h11);
 
   double nGen{1e5};
   double nPar{1e2};
@@ -206,26 +188,11 @@ v.reserve(11);
     std::fill(eventParticles.begin(), eventParticles.end(), Particle());
   }
 
-  // Creating Canvas
-  TCanvas* canvas =
-      new TCanvas("c1", "Generation particles", 200, 10, 900, 500);
-
-  // Dividing canvas in 4 columns, 3 lines
-  canvas->Divide(4, 3);
-
-  // Drawing TH1F histograms
-  for (int q{}; q != 11; ++q) {
-    if (q > 5 && q < 10) {
-      v[q]->Sumw2();
-    }
-    canvas->cd(q + 1);
-    v[q]->DrawCopy("H");
-    v[q]->DrawCopy("E,P,SAME");
-  };
-
-  // Drawing TH3F histogram
-  canvas->cd(12);
-  h12->DrawCopy();
+  // Applying Sumw2() method on invariant mass histograms
+  h7->Sumw2();
+  h8->Sumw2();
+  h9->Sumw2();
+  h10->Sumw2();
 
   // Writing all on TFile
   file->Write();
