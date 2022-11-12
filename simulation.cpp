@@ -7,12 +7,10 @@
 #include "TCanvas.h"
 #include "TFile.h"
 #include "TH1F.h"
-#include "TH2F.h"
 #include "TH3F.h"
 #include "TMath.h"
 #include "TROOT.h"
 #include "TRandom.h"
-#include "TString.h"
 #include "TStyle.h"
 #include "particle.hpp"
 #include "particleType.hpp"
@@ -195,6 +193,7 @@ void simulation() {
   h10->Sumw2();
 
   // Writing all on TFile
+  file->cd();
   file->Write();
   file->Close();
 }

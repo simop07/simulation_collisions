@@ -6,3 +6,5 @@
 *.so
 *.pcm
 *.root
+*.cxx_tmp_4133
+*.h
