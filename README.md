@@ -29,3 +29,4 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
     - Aggiunta di verifica indipendenza generazione angolo polare e azimutale
 
 - Per compilare il file script.sh: "chmod +x script.sh"
+- Stampare alla fine i grafici, come gif, o come pdf.
