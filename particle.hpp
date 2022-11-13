@@ -10,17 +10,23 @@ class Particle {
  public:
   Particle(std::string const& name, double px = 0., double py = 0.,
            double pz = 0.);
+
   // Default constructor
   Particle();
 
-  int GetIndex() const;
-
+  // Method used to add particles in fParticleType
   static void AddParticleType(std::string const& name, double mass, int charge,
                               double width = 0.);
 
   void SetIndex(int index);
 
   void SetIndex(std::string const& name);
+
+  void SetP(double px, double py, double pz);
+
+  // Getters and printers
+
+  int GetIndex() const;
 
   static void PrintParticle();
 
@@ -38,8 +44,6 @@ class Particle {
 
   double GetInvMass(Particle const& p) const;
 
-  void SetP(double px, double py, double pz);
-
   // Used to get fParticleType's size in tests and in member funtions above
   static int GetSize();
 
@@ -50,6 +54,7 @@ class Particle {
 
  private:
   static std::vector<ParticleType*> fParticleType;
+
   int fIndex;
   double fPx;
   double fPy;

@@ -8,10 +8,17 @@ class ParticleType {
  public:
   ParticleType(std::string const& name, double mass, int charge);
 
+  // Getters for member data
+
   std::string const GetName() const;
+
   double GetMass() const;
+
   int GetCharge() const;
+
   virtual double GetWidth() const;
+
+  // Printer for all data
   virtual void Print() const;
 
  private:

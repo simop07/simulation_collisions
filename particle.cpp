@@ -71,10 +71,10 @@ void Particle::PrintParticle() {
                 [](ParticleType* p) { p->Print(); });
 }
 
-// Printing data with same spacing
 void Particle::PrintIndex() const {
   using namespace std;
 
+  // Printing data with same spacing
   cout << left << setw(10) << "\nIndex:" << fIndex << left << setw(10)
        << "\nName" << fParticleType[fIndex]->GetName() << left << setw(10)
        << "\nPx:" << fPx << left << setw(10) << "\nPy:" << fPy << left
