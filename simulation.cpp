@@ -70,6 +70,13 @@ void simulation() {
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
 
+  // Applying Sumw2() method on invariant mass histograms
+  h7->Sumw2();
+  h8->Sumw2();
+  h9->Sumw2();
+  h10->Sumw2();
+  h11->Sumw2();
+
   double nGen{1e5};
   double nPar{1e2};
 
@@ -164,18 +171,18 @@ void simulation() {
               [&](Particle const& par_j) {
                 if (par_i.GetCharge() * par_j.GetCharge() < 0) {
                   h7->Fill(par_i.GetInvMass(par_j));
-                  if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 3) ||
-                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 4)) ||
-                      ((par_i.GetIndex() == 5 && par_j.GetIndex() == 2) ||
-                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 5))) {
+                  if (((par_i.GetIndex() == 0 && par_j.GetIndex() == 3) ||
+                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 0)) ||
+                      ((par_i.GetIndex() == 1 && par_j.GetIndex() == 2) ||
+                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 1))) {
                     h9->Fill(par_i.GetInvMass(par_j));
                   }
                 } else if (par_i.GetCharge() * par_j.GetCharge() > 0) {
                   h8->Fill(par_i.GetInvMass(par_j));
-                  if (((par_i.GetIndex() == 4 && par_j.GetIndex() == 2) ||
-                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 4)) ||
-                      ((par_i.GetIndex() == 5 && par_j.GetIndex() == 3) ||
-                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 5))) {
+                  if (((par_i.GetIndex() == 0 && par_j.GetIndex() == 2) ||
+                       (par_i.GetIndex() == 2 && par_j.GetIndex() == 0)) ||
+                      ((par_i.GetIndex() == 1 && par_j.GetIndex() == 3) ||
+                       (par_i.GetIndex() == 3 && par_j.GetIndex() == 1))) {
                     h10->Fill(par_i.GetInvMass(par_j));
                   }
                 }
@@ -185,12 +192,6 @@ void simulation() {
 
     std::fill(eventParticles.begin(), eventParticles.end(), Particle());
   }
-
-  // Applying Sumw2() method on invariant mass histograms
-  h7->Sumw2();
-  h8->Sumw2();
-  h9->Sumw2();
-  h10->Sumw2();
 
   // Writing all on TFile
   file->cd();
