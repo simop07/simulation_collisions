@@ -18,9 +18,8 @@
 
 // Cosmetics
 void setStyle() {
-  gROOT->SetStyle("Plain");
+  gROOT->SetStyle("Default");
   gStyle->SetOptStat(1122);
-  gStyle->SetOptFit(111);
   gStyle->SetPalette(57);
   gStyle->SetOptTitle(0);
 }
@@ -37,7 +36,7 @@ void simulation() {
   // Creating TFile
   TFile* file = new TFile("simulation_collisions.root", "RECREATE");
 
-  // \u03C0 is the unicode escape character for lowercase greek letter pi
+  // \u03C0 is the unicode escape character for pion particles
   Particle::AddParticleType("\u03C0+", 0.13957, 1);
   Particle::AddParticleType("\u03C0-", 0.13957, -1);
   Particle::AddParticleType("K+", 0.49367, 1);
@@ -46,27 +45,31 @@ void simulation() {
   Particle::AddParticleType("p-", 0.93827, -1);
   Particle::AddParticleType("K*", 0.89166, 0, 0.05);
 
+  // Printing particles' info
   Particle::PrintParticle();
 
   // Creating histograms
-  TH1F* h1 = new TH1F("h1", "Generated particle types", 7, 0, 7);
+
+  TH1F* h1 = new TH1F("h1", "Particle types", 7, 0, 7);
+
   TH1F* h2 =
       new TH1F("h2", "Azimuthal angle distribution", 1e3, 0, 2 * TMath::Pi());
   TH1F* h3 = new TH1F("h3", "Polar angle distribution", 1e3, 0, TMath::Pi());
   TH1F* h4 = new TH1F("h4", "Impulse distribution", 500, 0, 10);
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
-  TH1F* h6 = new TH1F("h6", "Particle energy", 500, 0, 10);
+  TH1F* h6 = new TH1F("h6", "Particle energy distribution", 500, 0, 10);
   TH1F* h7 = new TH1F(
-      "h7", "Invariant mass for particles with discordant charge", 80, 0, 2);
+      "h7", "Invariant mass between discordant charge particles", 80, 0, 2);
   TH1F* h8 = new TH1F(
-      "h8", "Invariant mass for particles with concordant charge", 80, 0, 2);
-  TH1F* h9 =
-      new TH1F("h9", "Invariant mass for particles pion+/kaon- and pion-/kaon+",
+      "h8", "Invariant mass between concordant charge particles", 80, 0, 2);
+  TH1F* h9 = new TH1F(
+      "h9", "Invariant mass between \u03C0+/kaon- and \u03C0-/kaon+", 80, 0, 2);
+  TH1F* h10 =
+      new TH1F("h10", "Invariant mass between \u03C0+/kaon+ and \u03C0-/kaon-",
                80, 0, 2);
-  TH1F* h10 = new TH1F(
-      "h10", "Invariant mass for particles pion+/kaon+ and pion-/kaon-", 80, 0,
+  TH1F* h11 = new TH1F(
+      "h11", "Invariant mass between particles generated from decayment", 80, 0,
       2);
-  TH1F* h11 = new TH1F("h11", "Benchmark histogram", 80, 0, 2);
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
 
@@ -77,11 +80,14 @@ void simulation() {
   h10->Sumw2();
   h11->Sumw2();
 
-  double nGen{1e5};
-  double nPar{1e2};
+  // Respectively number of events and particles generated per event
+  double const nGen{1e5};
+  double const nPar{1e2};
 
-  // Creating vector of 100+ generated particles
+  // Creating array of 100+ generated particles
   std::array<Particle, 120> eventParticles;
+
+  // Filling histograms
 
   double phi{};
   double theta{};
@@ -90,6 +96,7 @@ void simulation() {
   double yRNDM{};
 
   for (int i{}; i != nGen; ++i) {
+    // Used to track eventParticles effective size every event
     int effectiveSize{100};
 
     for (int j{}; j != nPar; ++j) {
@@ -190,6 +197,7 @@ void simulation() {
           ++n;
         });
 
+    // Clearing the array at the end of every event
     std::fill(eventParticles.begin(), eventParticles.end(), Particle());
   }
 
@@ -202,6 +210,8 @@ void simulation() {
 // Add main in order to compile from shell
 int main() {
   setStyle();
+
   simulation();
+
   return EXIT_SUCCESS;
 }
