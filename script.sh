@@ -3,4 +3,3 @@ root << EOF
 simulation()
 .L analysis.cpp+
 analysis()
-EOF
