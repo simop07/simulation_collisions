@@ -8,6 +8,7 @@
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH3F.h"
+#include "TLatex.h"
 #include "TMath.h"
 #include "TROOT.h"
 #include "TRandom.h"
@@ -18,7 +19,7 @@
 
 // Cosmetics
 void setStyle() {
-  gROOT->SetStyle("Default");
+  gROOT->SetStyle("Plain");
   gStyle->SetOptStat(1122);
   gStyle->SetPalette(57);
   gStyle->SetOptTitle(0);
@@ -45,7 +46,7 @@ void simulation() {
   Particle::AddParticleType("p-", 0.93827, -1);
   Particle::AddParticleType("K*", 0.89166, 0, 0.05);
 
-  // Printing particles' info
+  // Printing particles'info
   Particle::PrintParticle();
 
   // Creating histograms
@@ -63,10 +64,9 @@ void simulation() {
   TH1F* h8 = new TH1F(
       "h8", "Invariant mass between concordant charge particles", 80, 0, 2);
   TH1F* h9 = new TH1F(
-      "h9", "Invariant mass between \u03C0+/kaon- and \u03C0-/kaon+", 80, 0, 2);
-  TH1F* h10 =
-      new TH1F("h10", "Invariant mass between \u03C0+/kaon+ and \u03C0-/kaon-",
-               80, 0, 2);
+      "h9", "Invariant mass between pion+/kaon- and pion-/kaon+", 80, 0, 2);
+  TH1F* h10 = new TH1F(
+      "h10", "Invariant mass between pion+/kaon+ and pion-/kaon-", 80, 0, 2);
   TH1F* h11 = new TH1F(
       "h11", "Invariant mass between particles generated from decayment", 80, 0,
       2);

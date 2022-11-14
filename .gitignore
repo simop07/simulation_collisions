@@ -1,6 +1,6 @@
 *.o*
 .vscode
-*Info.pdf
+*.pdf
 *.txt
 *.d
 *.so
@@ -8,4 +8,5 @@
 *.root
 *.cxx_tmp_4133
 *.h
-*.sh
+*.png
+*.gif
