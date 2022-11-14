@@ -65,8 +65,8 @@ void analysis() {
   TF1* f1 = new TF1("funiform1", "pol0", 0., 2 * TMath::Pi());
   TF1* f2 = new TF1("funiform2", "pol0", 0., TMath::Pi());
   TF1* f3 = new TF1("fexpo", "expo", 0., 10.);
-  TF1* f4 = new TF1("fgaus1", "gaus", 0., 2.);
-  TF1* f5 = new TF1("fgaus2", "gaus", 0., 2.);
+  TF1* f4 = new TF1("fgaus1", "gaus", 0.5, 1.5);
+  TF1* f5 = new TF1("fgaus2", "gaus", 0.5, 1.5);
   TF1* f6 = new TF1("fgaus3", "gaus", 0., 2.);
 
   // Creating histograms of differences using copy constructor
