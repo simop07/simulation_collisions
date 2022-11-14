@@ -10,6 +10,7 @@
 #include "TH1F.h"
 #include "TH3F.h"
 #include "TLatex.h"
+#include "TLegend.h"
 #include "TROOT.h"
 #include "TStyle.h"
 
@@ -67,7 +68,7 @@ void analysis() {
   TF1* f3 = new TF1("fexpo", "expo", 0., 10.);
   TF1* f4 = new TF1("fgaus1", "gaus", 0.5, 1.5);
   TF1* f5 = new TF1("fgaus2", "gaus", 0.5, 1.5);
-  TF1* f6 = new TF1("fgaus3", "gaus", 0., 2.);
+  TF1* f6 = new TF1("fgaus3", "gaus", 0.5, 1.5);
 
   // Creating histograms of differences using copy constructor
   TH1F* hDiff1 = new TH1F(*h7);
@@ -82,8 +83,8 @@ void analysis() {
   hDiff2->Add(h9, h10, 1, -1);
 
   // Creating array that contains all TH1F histograms
-  std::array<TH1F*, 13> histos{h1, h2, h3,  h4,  h5,     h6,    h7,
-                               h8, h9, h10, h11, hDiff1, hDiff2};
+  array<TH1F*, 13> histos{h1, h2, h3,  h4,  h5,     h6,    h7,
+                          h8, h9, h10, h11, hDiff1, hDiff2};
 
   // Setting parameters and fitting
   double const kMass{0.89166};
@@ -129,7 +130,7 @@ void analysis() {
   const char* label[7]{"\u03C0+", "\u03C0-", "K+", "K-", "p+", "p-", "K*"};
 
   // Drawing histograms on Canvas
-  std::for_each(histos.begin(), histos.end(), [&](TH1F* h) {
+  for_each(histos.begin(), histos.end(), [&](TH1F* h) {
     if (h == h1) {
       c1->cd(1);
       h->GetXaxis()->SetBinLabel(1, "#pi+");
@@ -142,44 +143,45 @@ void analysis() {
       h->GetXaxis()->SetTitle("Particles");
     } else if (h == h2) {
       c1->cd(2);
-      h->GetXaxis()->SetTitle("#theta (rad)");
+      h->GetXaxis()->SetTitle("#theta [rad]");
       h->SetMaximum(12000);
       h->SetMinimum(8000);
     } else if (h == h3) {
       c1->cd(3);
-      h->GetXaxis()->SetTitle("#phi (rad)");
+      h->GetXaxis()->SetTitle("#phi [rad]");
       h->SetMaximum(12000);
       h->SetMinimum(8000);
     } else if (h == h4) {
       c2->cd(1);
-      h->GetXaxis()->SetTitle("Impulse (GeV/c)");
+      h->GetXaxis()->SetTitle("Impulse [GeV/c]");
     } else if (h == h5) {
       c2->cd(2);
-      h->GetXaxis()->SetTitle("Transverse impulse (GeV/c)");
+      h->GetXaxis()->SetTitle("Transverse impulse [GeV/c]");
     } else if (h == h6) {
       c3->cd();
-      h->GetXaxis()->SetTitle("Energy (GeV)");
+      h->GetXaxis()->SetTitle("Energy [GeV]");
     } else if (h == h7) {
       c4->cd(1);
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     } else if (h == h8) {
       c4->cd(2);
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     } else if (h == h9) {
       c4->cd(3);
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     } else if (h == h10) {
       c4->cd(4);
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     } else if (h == h11) {
       c5->cd();
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
+      h->SetAxisRange(0.5, 1.5, "X");
     } else if (h == hDiff1) {
       c6->cd();
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     } else if (h == hDiff2) {
       c7->cd();
-      h->GetXaxis()->SetTitle("Mass (GeV/c^{2})");
+      h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
     }
 
     // Cosmetics
@@ -210,10 +212,8 @@ void analysis() {
   h12->GetZaxis()->SetTitle("z-density");
   h12->DrawCopy();
 
-  // Analysing histograms
-
   // Printing name and entries for all histograms
-  std::for_each(histos.begin(), histos.end(), [&](TH1F* h) {
+  for_each(histos.begin(), histos.end(), [&](TH1F* h) {
     cout << left << setw(10) << "\nName:" << h->GetTitle() << left << setw(10)
          << "\nEntries:" << h->Integral() << '\n';
 
@@ -227,6 +227,39 @@ void analysis() {
       }
     }
   });
+
+  // Adding legend
+  TLegend* leg1 = new TLegend(.1, .7, .3, .9, "Azimuthal angle fit");
+  TLegend* leg2 = new TLegend(.1, .7, .3, .9, "Polar angle fit");
+  TLegend* leg3 = new TLegend(.1, .7, .3, .9, "Impulse fit");
+  TLegend* leg4 = new TLegend(.1, .7, .3, .9, "Invariant mass1 fit");
+  TLegend* leg5 = new TLegend(.1, .7, .3, .9, "Invariant mass2 fit");
+  TLegend* leg6 = new TLegend(.1, .7, .3, .9, "Invariant mass fit");
+
+  leg1->SetFillColor(0);
+  leg1->AddEntry(h2, "#theta distribution");
+  leg1->AddEntry(f1, "Uniform distribution");
+  leg1->Draw("S");
+  leg2->SetFillColor(0);
+  leg2->AddEntry(h3, "#phi distribution");
+  leg2->AddEntry(f2, "Uniform distribution");
+  leg2->Draw("S");
+  leg3->SetFillColor(0);
+  leg3->AddEntry(h4, "Impulse distribution");
+  leg3->AddEntry(f3, "Exponential distribution");
+  leg3->Draw("S");
+  leg4->SetFillColor(0);
+  leg4->AddEntry(h11, "Benchmark distribution");
+  leg4->AddEntry(f4, "Gaussian distribution");
+  leg4->Draw("S");
+  leg5->SetFillColor(0);
+  leg5->AddEntry(hDiff1, "Difference_1 distribution");
+  leg5->AddEntry(f5, "Gaussian distribution");
+  leg5->Draw("S");
+  leg6->SetFillColor(0);
+  leg6->AddEntry(hDiff2, "Difference_2 distribution");
+  leg6->AddEntry(f6, "Gaussian distribution");
+  leg6->Draw("S");
 
   // Printing datas in shell
   cout << left << setw(39) << "\nParameter azimuthal angle fit:" << left
