@@ -9,5 +9,6 @@
 *.cxx_tmp_4133
 *.h
 *.png
+*.jpg
 *.gif
-scriptRoot.sh
+*.sh
