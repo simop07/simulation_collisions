@@ -328,7 +328,7 @@ void analysis() {
   c6->Write();
   c7->Write();
 
-  // Saving Canvas in .pdf, .png and .gif format
+  // Saving Canvas in .pdf, .png and .jpg format
   c1->Print("particleDistribution.pdf");
   c2->Print("impulse.pdf");
   c3->Print("energy.pdf");
@@ -343,13 +343,13 @@ void analysis() {
   c5->Print("invariantMassDecay.png");
   c6->Print("decayParticleData1.png");
   c7->Print("decayParticleData1.png");
-  c1->Print("particleDistribution.gif");
-  c2->Print("impulse.gif");
-  c3->Print("energy.gif");
-  c4->Print("invariantMass.gif");
-  c5->Print("invariantMassDecay.gif");
-  c6->Print("decayParticleData1.gif");
-  c7->Print("decayParticleData1.gif");
+  c1->Print("particleDistribution.jpg");
+  c2->Print("impulse.jpg");
+  c3->Print("energy.jpg");
+  c4->Print("invariantMass.jpg");
+  c5->Print("invariantMassDecay.jpg");
+  c6->Print("decayParticleData1.jpg");
+  c7->Print("decayParticleData1.jpg");
 
   file1->Close();
   file2->Close();
