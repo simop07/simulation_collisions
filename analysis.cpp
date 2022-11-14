@@ -231,35 +231,42 @@ void analysis() {
   // Adding legend
   TLegend* leg1 = new TLegend(.1, .7, .3, .9, "Azimuthal angle fit");
   TLegend* leg2 = new TLegend(.1, .7, .3, .9, "Polar angle fit");
-  TLegend* leg3 = new TLegend(.1, .7, .3, .9, "Impulse fit");
-  TLegend* leg4 = new TLegend(.1, .7, .3, .9, "Invariant mass1 fit");
-  TLegend* leg5 = new TLegend(.1, .7, .3, .9, "Invariant mass2 fit");
-  TLegend* leg6 = new TLegend(.1, .7, .3, .9, "Invariant mass fit");
+  TLegend* leg3 = new TLegend(.7, .37, .9, .57, "Impulse fit");
+  TLegend* leg4 = new TLegend(.1, .7, .3, .9, "Invariant mass fit");
+  TLegend* leg5 = new TLegend(.1, .7, .3, .9, "Invariant mass1 fit");
+  TLegend* leg6 = new TLegend(.1, .7, .3, .9, "Invariant mass2 fit");
 
   leg1->SetFillColor(0);
   leg1->AddEntry(h2, "#theta distribution");
   leg1->AddEntry(f1, "Uniform distribution");
-  leg1->Draw("S");
+  c1->cd(2);
+  leg1->Draw("SAME");
   leg2->SetFillColor(0);
   leg2->AddEntry(h3, "#phi distribution");
   leg2->AddEntry(f2, "Uniform distribution");
-  leg2->Draw("S");
+  c1->cd(3);
+
+  leg2->Draw("SAME");
   leg3->SetFillColor(0);
   leg3->AddEntry(h4, "Impulse distribution");
   leg3->AddEntry(f3, "Exponential distribution");
-  leg3->Draw("S");
+  c2->cd(1);
+  leg3->Draw("SAME");
   leg4->SetFillColor(0);
   leg4->AddEntry(h11, "Benchmark distribution");
   leg4->AddEntry(f4, "Gaussian distribution");
-  leg4->Draw("S");
+  c5->cd();
+  leg4->Draw("SAME");
   leg5->SetFillColor(0);
   leg5->AddEntry(hDiff1, "Difference_1 distribution");
   leg5->AddEntry(f5, "Gaussian distribution");
-  leg5->Draw("S");
+  c6->cd();
+  leg5->Draw("SAME");
   leg6->SetFillColor(0);
   leg6->AddEntry(hDiff2, "Difference_2 distribution");
   leg6->AddEntry(f6, "Gaussian distribution");
-  leg6->Draw("S");
+  c7->cd();
+  leg6->Draw("SAME");
 
   // Printing datas in shell
   cout << left << setw(39) << "\nParameter azimuthal angle fit:" << left
