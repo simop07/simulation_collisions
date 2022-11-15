@@ -66,9 +66,9 @@ void analysis() {
   TF1* f1 = new TF1("funiform1", "pol0", 0., 2 * TMath::Pi());
   TF1* f2 = new TF1("funiform2", "pol0", 0., TMath::Pi());
   TF1* f3 = new TF1("fexpo", "expo", 0., 10.);
-  TF1* f4 = new TF1("fgaus1", "gaus", 0.5, 1.5);
-  TF1* f5 = new TF1("fgaus2", "gaus", 0.5, 1.5);
-  TF1* f6 = new TF1("fgaus3", "gaus", 0.5, 1.5);
+  TF1* f4 = new TF1("fgaus1", "gaus", 0.3, 1.5);
+  TF1* f5 = new TF1("fgaus2", "gaus", 0.6, 1.2);
+  TF1* f6 = new TF1("fgaus3", "gaus", 0.6, 1.2);
 
   // Creating histograms of differences using copy constructor
   TH1F* hDiff1 = new TH1F(*h7);
@@ -86,7 +86,7 @@ void analysis() {
   array<TH1F*, 13> histos{h1, h2, h3,  h4,  h5,     h6,    h7,
                           h8, h9, h10, h11, hDiff1, hDiff2};
 
-  // Setting parameters and fitting
+  // Setting parameters
   double const kMass{0.89166};
   double const kWidth{0.050};
   f1->SetParameter(0, 1e4);
@@ -99,19 +99,27 @@ void analysis() {
   f6->SetParameter(1, kMass);
   f6->SetParameter(2, kWidth);
 
+  // Setting parameters'names
+  f1->SetParNames("Constant");
+  f2->SetParNames("Constant");
+  f3->SetParNames("Constant", "Tau");
+  f4->SetParNames("Constant", "Mass K*", "Width K*");
+  f5->SetParNames("Constant", "Mass K*", "Width K*");
+  f6->SetParNames("Constant", "Mass K*", "Width K*");
+
   // Cosmetics
   f1->SetLineColor(kYellow);
   f2->SetLineColor(kYellow);
-  f3->SetLineColor(kYellow);
+  f3->SetLineColor(kRed);
   f4->SetLineColor(kRed);
   f5->SetLineColor(kRed);
   f6->SetLineColor(kRed);
-  f1->SetLineWidth(2);
-  f2->SetLineWidth(2);
-  f3->SetLineWidth(2);
-  f4->SetLineWidth(2);
-  f5->SetLineWidth(2);
-  f6->SetLineWidth(2);
+  f1->SetLineWidth(3);
+  f2->SetLineWidth(3);
+  f3->SetLineWidth(3);
+  f4->SetLineWidth(3);
+  f5->SetLineWidth(3);
+  f6->SetLineWidth(3);
   f1->SetLineStyle(2);
   f2->SetLineStyle(2);
   f3->SetLineStyle(2);
@@ -119,12 +127,13 @@ void analysis() {
   f5->SetLineStyle(2);
   f6->SetLineStyle(2);
 
-  h2->Fit("funiform1", "BQ");
-  h3->Fit("funiform2", "BQ");
-  h4->Fit("fexpo", "BQ");
-  h11->Fit("fgaus3", "BQ");
-  hDiff1->Fit("fgaus1", "BQ");
-  hDiff2->Fit("fgaus2", "BQ");
+  // Fitting
+  h2->Fit("funiform1", "BQR");
+  h3->Fit("funiform2", "BQR");
+  h4->Fit("fexpo", "BQR");
+  h11->Fit("fgaus3", "BQR");
+  hDiff1->Fit("fgaus1", "BQR");
+  hDiff2->Fit("fgaus2", "BQR");
 
   // Native array of particles'name
   const char* label[7]{"\u03C0+", "\u03C0-", "K+", "K-", "p+", "p-", "K*"};
@@ -156,7 +165,7 @@ void analysis() {
       h->GetXaxis()->SetTitle("Impulse [GeV/c]");
     } else if (h == h5) {
       c2->cd(2);
-      h->GetXaxis()->SetTitle("Transverse impulse [GeV/c]");
+      h->GetXaxis()->SetTitle("Impulse [GeV/c]");
     } else if (h == h6) {
       c3->cd();
       h->GetXaxis()->SetTitle("Energy [GeV]");
@@ -179,9 +188,11 @@ void analysis() {
     } else if (h == hDiff1) {
       c6->cd();
       h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
+      h->SetAxisRange(0., 2.5, "X");
     } else if (h == hDiff2) {
       c7->cd();
       h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
+      h->SetAxisRange(0., 2.5, "X");
     }
 
     // Cosmetics
@@ -193,6 +204,7 @@ void analysis() {
     h->GetXaxis()->SetTitleSize(0.04);
     h->GetYaxis()->SetTitleSize(0.04);
     h->GetYaxis()->SetTitle("Entries");
+    gStyle->SetOptStat(1002200);
     gStyle->SetOptFit(1111);
     h->DrawCopy("H");
     h->DrawCopy("E,P,SAME");
@@ -222,19 +234,20 @@ void analysis() {
         cout << "\n\u0025 of " << label[i - 1] << left << setw(10)
              << " generated: " << (h->GetBinContent(i) / h->GetEntries()) * 100.
              << "\u0025\n"
-             << label[i - 1] << " in " << i << " bin: " << h->GetBinContent(i)
-             << " ± " << h->GetBinError(i) << '\n';
+             << label[i - 1] << " in " << i << left << setw(12)
+             << " bin:" << h->GetBinContent(i) << " ± " << h->GetBinError(i)
+             << '\n';
       }
     }
   });
 
   // Adding legend
-  TLegend* leg1 = new TLegend(.1, .7, .3, .9, "Azimuthal angle fit");
-  TLegend* leg2 = new TLegend(.1, .7, .3, .9, "Polar angle fit");
-  TLegend* leg3 = new TLegend(.7, .37, .9, .57, "Impulse fit");
-  TLegend* leg4 = new TLegend(.1, .7, .3, .9, "Invariant mass fit");
-  TLegend* leg5 = new TLegend(.1, .7, .3, .9, "Invariant mass1 fit");
-  TLegend* leg6 = new TLegend(.1, .7, .3, .9, "Invariant mass2 fit");
+  TLegend* leg1 = new TLegend(.1, .7, .3, .9);
+  TLegend* leg2 = new TLegend(.1, .7, .3, .9);
+  TLegend* leg3 = new TLegend(.7, .3458, .9, .536);
+  TLegend* leg4 = new TLegend(.1, .7, .3, .9);
+  TLegend* leg5 = new TLegend(.1, .7, .3, .9);
+  TLegend* leg6 = new TLegend(.1, .7, .3, .9);
 
   leg1->SetFillColor(0);
   leg1->AddEntry(h2, "#theta distribution");
@@ -269,54 +282,56 @@ void analysis() {
   leg6->Draw("SAME");
 
   // Printing datas in shell
-  cout << left << setw(39) << "\nParameter azimuthal angle fit:" << left
-       << setw(38) << "\np0:" << f1->GetParameter(0) << " ± "
-       << f1->GetParError(0) << left << setw(39)
-       << "\n\u03c7^2/NDF azimuthal angle fit:"
+
+  // Azimuthal angle
+  cout << left << setw(39) << "\nAzimuthal angle fit:" << left << setw(38)
+       << "\nConstant:" << f1->GetParameter(0) << " ± " << f1->GetParError(0)
+       << left << setw(39) << "\n\u03c7^2/NDF azimuthal angle fit:"
        << f1->GetChisquare() / f1->GetNDF() << left << setw(39)
        << "\n\u03c7^2 probability azimuthal angle fit:" << f1->GetProb()
        << '\n';
 
-  cout << left << setw(39) << "\nParameter azimuthal angle fit:" << left
-       << setw(38) << "\np0:" << f2->GetParameter(0) << " ± "
-       << f2->GetParError(0) << left << setw(39)
-       << "\n\u03c7^2/NDF azimuthal angle fit:"
-       << f2->GetChisquare() / f2->GetNDF() << left << setw(39)
-       << "\n\u03c7^2 probability azimuthal angle fit:" << f2->GetProb()
-       << '\n';
+  // Polar angle
+  cout << left << setw(35) << "\nPolar angle fit:" << left << setw(34)
+       << "\nConstant:" << f2->GetParameter(0) << " ± " << f2->GetParError(0)
+       << left << setw(35)
+       << "\n\u03c7^2/NDF polar angle fit:" << f2->GetChisquare() / f2->GetNDF()
+       << left << setw(35)
+       << "\n\u03c7^2 probability polar angle fit:" << f2->GetProb() << '\n';
 
-  cout << left << setw(39) << "\nParameter 3D impulse fit:" << left << setw(38)
-       << "\np0:" << f2->GetParameter(0) << " ± " << f2->GetParError(0) << left
-       << setw(39) << "\n\u03c7^2/NDF azimuthal angle fit:"
-       << f2->GetChisquare() / f2->GetNDF() << left << setw(39)
-       << "\n\u03c7^2 probability azimuthal angle fit:" << f2->GetProb()
-       << '\n';
-
-  cout << "\nParameters 3D impulse fit:" << left << setw(38)
-       << "\np0:" << f3->GetParameter(0) << " ± " << f3->GetParError(0) << left
-       << setw(38) << "\np1:" << f3->GetParameter(1) << " ± "
-       << f3->GetParError(1) << left << setw(39)
+  // 3D impulse
+  cout << "\n3D impulse fit:" << left << setw(33)
+       << "\nConstant:" << f3->GetParameter(0) << " ± " << f3->GetParError(0)
+       << left << setw(33) << "\np1:" << f3->GetParameter(1) << " ± "
+       << f3->GetParError(1) << left << setw(34)
        << "\n\u03c7^2/NDF 3D impulse fit:" << f3->GetChisquare() / f3->GetNDF()
-       << left << setw(39)
+       << left << setw(34)
        << "\n\u03c7^2 probability 3d impulse fit:" << f3->GetProb() << '\n';
 
-  cout << left << setw(37) << "\nMass K* =" << f4->GetParameter(1) << " ± "
-       << f4->GetParError(1) << left << setw(37)
-       << "\nWidth K* =" << f4->GetParameter(2) << " ± " << f4->GetParError(2)
-       << left << setw(37) << "\nAmplitude =" << f4->GetParameter(0) << " ± "
-       << f4->GetParError(0) << left << setw(38)
+  // K* 1st difference
+  cout << '\n'
+       << f4->GetParName(1) << left << setw(29) << " =" << f4->GetParameter(1)
+       << " ± " << f4->GetParError(1) << '\n'
+       << f4->GetParName(2) << left << setw(28) << " =" << f4->GetParameter(2)
+       << " ± " << f4->GetParError(2) << '\n'
+       << f4->GetParName(0) << left << setw(28) << " =" << f4->GetParameter(0)
+       << " ± " << f4->GetParError(0) << left << setw(38)
        << "\n\u03c7^2/NDF 1st difference fit:"
        << f4->GetChisquare() / f4->GetNDF() << left << setw(38)
        << "\n\u03c7^2 probability 1st difference fit:" << f4->GetProb() << '\n';
 
-  cout << left << setw(37) << "\nMass K* =" << f4->GetParameter(1) << " ± "
-       << f5->GetParError(1) << left << setw(37)
-       << "\nWidth K* =" << f5->GetParameter(2) << " ± " << f5->GetParError(2)
-       << left << setw(37) << "\nAmplitude =" << f5->GetParameter(0) << " ± "
-       << f5->GetParError(0) << left << setw(38)
-       << "\n\u03c7^2/NDF 2nd difference fit:"
+  // K* 2nd difference
+  cout << '\n'
+       << f5->GetParName(1) << left << setw(29) << " =" << f5->GetParameter(1)
+       << " ± " << f5->GetParError(1) << '\n'
+       << f5->GetParName(2) << left << setw(28) << " =" << f5->GetParameter(2)
+       << " ± " << f5->GetParError(2) << '\n'
+       << f5->GetParName(0) << left << setw(28) << " =" << f5->GetParameter(0)
+       << " ± " << f5->GetParError(0) << left << setw(38)
+       << "\n\u03c7^2/NDF 2st difference fit:"
        << f5->GetChisquare() / f5->GetNDF() << left << setw(38)
-       << "\n\u03c7^2 probability 2nd difference fit:" << f5->GetProb() << '\n';
+       << "\n\u03c7^2 probability 2st difference fit:" << f5->GetProb()
+       << "\n\n";
 
   // Writing on new TFile
   file2->cd();
