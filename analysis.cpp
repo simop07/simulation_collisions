@@ -103,9 +103,9 @@ void analysis() {
   f1->SetParNames("Constant");
   f2->SetParNames("Constant");
   f3->SetParNames("Constant", "Tau");
-  f4->SetParNames("Constant", "Mass K*", "Width K*");
-  f5->SetParNames("Constant", "Mass K*", "Width K*");
-  f6->SetParNames("Constant", "Mass K*", "Width K*");
+  f4->SetParNames("Constant", "MassK*", "WidthK*");
+  f5->SetParNames("Constant", "MassK*", "WidthK*");
+  f6->SetParNames("Constant", "MassK*", "WidthK*");
 
   // Cosmetics
   f1->SetLineColor(kYellow);
@@ -366,8 +366,8 @@ void analysis() {
   c6->Print("decayParticleData1.jpg");
   c7->Print("decayParticleData1.jpg");
 
-  file1->Close();
   file2->Close();
+  file1->Close();
 }
 
 int main() { analysis(); }
