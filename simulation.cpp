@@ -26,6 +26,9 @@ void setStyle() {
 }
 
 void simulation() {
+  // Cosmetics
+  setStyle();
+
   // To avoid reloading manually if .so is present
   R__LOAD_LIBRARY(particleType_cpp.so);
   R__LOAD_LIBRARY(resonanceType_cpp.so);
@@ -60,16 +63,16 @@ void simulation() {
   TH1F* h5 = new TH1F("h5", "Transverse impulse distribution", 500, 0, 10);
   TH1F* h6 = new TH1F("h6", "Particle energy distribution", 500, 0, 10);
   TH1F* h7 = new TH1F(
-      "h7", "Invariant mass between discordant charge particles", 80, 0, 2);
+      "h7", "Invariant mass between discordant charge particles", 80, 0, 3);
   TH1F* h8 = new TH1F(
-      "h8", "Invariant mass between concordant charge particles", 80, 0, 2);
+      "h8", "Invariant mass between concordant charge particles", 80, 0, 3);
   TH1F* h9 = new TH1F(
-      "h9", "Invariant mass between pion+/kaon- and pion-/kaon+", 80, 0, 2);
+      "h9", "Invariant mass between pion+/kaon- and pion-/kaon+", 150, 0, 3);
   TH1F* h10 = new TH1F(
-      "h10", "Invariant mass between pion+/kaon+ and pion-/kaon-", 80, 0, 2);
+      "h10", "Invariant mass between pion+/kaon+ and pion-/kaon-", 150, 0, 3);
   TH1F* h11 = new TH1F(
-      "h11", "Invariant mass between particles generated from decayment", 80, 0,
-      2);
+      "h11", "Invariant mass between particles generated from decayment", 200,
+      0, 3);
   TH3F* h12 = new TH3F("h12", "3D azimuthal and polar angles distribution", 100,
                        -1, 1, 100, -1, 1, 100, -1, 1);
 
@@ -81,8 +84,8 @@ void simulation() {
   h11->Sumw2();
 
   // Respectively number of events and particles generated per event
-  double const nGen{1e5};
-  double const nPar{1e2};
+  constexpr double nGen{1e5};
+  constexpr double nPar{1e2};
 
   // Creating array of 100+ generated particles
   std::array<Particle, 120> eventParticles;
