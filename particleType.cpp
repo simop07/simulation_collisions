@@ -15,7 +15,7 @@ void ParticleType::Print() const {
   using namespace std;
 
   // Printing data with same spacing
-  cout << left << setw(10) << "\nName:" << fName << left << setw(10)
-       << "\nMass:" << fMass << left << setw(10) << "\nCharge:" << left
-       << setw(10) << fCharge << '\n';
+  cout << left << setw(9) << "\nName:" << fName << left << setw(9)
+       << "\nMass:" << fMass << left << setw(9) << "\nCharge:" << fCharge
+       << '\n';
 }

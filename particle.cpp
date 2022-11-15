@@ -12,7 +12,7 @@ Particle::Particle(std::string const& name, double px, double py, double pz)
   auto size = GetSize();
 
   if (index == size) {
-    std::cerr << "No matches found for particle \'" << name << "\'.\n";
+    std::cerr << "No matches found for particle \'" << name << "\'\n";
   } else {
     fIndex = index;
   }
@@ -41,13 +41,13 @@ void Particle::AddParticleType(std::string const& name, double mass, int charge,
   auto size = GetSize();
 
   if (index != size) {
-    std::cerr << "Particle \'" << name << "\' already inserted.\n";
+    std::cerr << "Particle \'" << name << "\' already inserted\n";
   } else {
     ResonanceType* resT = new ResonanceType{name, mass, charge, width};
     fParticleType.push_back(resT);
 
     std::cout << "Inserted particle \'" << name << "\' in index " << index
-              << ".\n";
+              << '\n';
   }
 }
 
@@ -56,7 +56,7 @@ void Particle::SetIndex(int index) {
 
   // < -1 is used because default constructor sets fIndex to -1
   if (index >= size || index < -1) {
-    std::cerr << "Particle not found.\n";
+    std::cerr << "Particle not found\n";
   } else {
     fIndex = index;
   }
@@ -114,7 +114,7 @@ int Particle::GetCharge() const { return fParticleType[fIndex]->GetCharge(); }
 
 int Particle::Decay2Body(Particle& dau1, Particle& dau2) const {
   if (GetMass() == 0.) {
-    printf("Decayment cannot be preformed if mass is zero.\n");
+    printf("Decayment cannot be preformed if mass is zero\n");
     return 1;
   }
 
@@ -145,7 +145,7 @@ int Particle::Decay2Body(Particle& dau1, Particle& dau2) const {
   if (massMot < massDau1 + massDau2) {
     printf(
         "Decayment cannot be preformed because mass is too low in this "
-        "channel.\n");
+        "channel\n");
     return 2;
   }
 

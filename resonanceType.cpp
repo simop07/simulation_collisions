@@ -10,5 +10,5 @@ void ResonanceType::Print() const {
   using namespace std;
 
   ParticleType::Print();
-  cout << left << setw(9) << "Width:" << setw(6) << fWidth << '\n';
+  cout << left << setw(8) << "Width:" << fWidth << '\n';
 }
