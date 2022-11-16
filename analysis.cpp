@@ -1,4 +1,4 @@
-// To compile in shell: "analysis.cpp `root-config --cflags --libs`"
+// To compile in SHELL: "analysis.cpp `root-config --cflags --libs`"
 
 #include <array>
 #include <iomanip>
@@ -169,6 +169,7 @@ void analysis() {
     } else if (h == h6) {
       c3->cd();
       h->GetXaxis()->SetTitle("Energy [GeV]");
+      h->SetAxisRange(0., 6., "X");
     } else if (h == h7) {
       c4->cd(1);
       h->GetXaxis()->SetTitle("Mass [GeV/c^{2}]");
@@ -281,7 +282,7 @@ void analysis() {
   c7->cd();
   leg6->Draw("SAME");
 
-  // Printing datas in shell
+  // Printing datas in SHELL
 
   // Azimuthal angle
   cout << left << setw(39) << "\nAzimuthal angle fit:" << left << setw(38)
@@ -310,9 +311,9 @@ void analysis() {
 
   // K* 1st difference
   cout << '\n'
-       << f4->GetParName(1) << left << setw(29) << " =" << f4->GetParameter(1)
+       << f4->GetParName(1) << left << setw(30) << " =" << f4->GetParameter(1)
        << " ± " << f4->GetParError(1) << '\n'
-       << f4->GetParName(2) << left << setw(28) << " =" << f4->GetParameter(2)
+       << f4->GetParName(2) << left << setw(29) << " =" << f4->GetParameter(2)
        << " ± " << f4->GetParError(2) << '\n'
        << f4->GetParName(0) << left << setw(28) << " =" << f4->GetParameter(0)
        << " ± " << f4->GetParError(0) << left << setw(38)
@@ -322,9 +323,9 @@ void analysis() {
 
   // K* 2nd difference
   cout << '\n'
-       << f5->GetParName(1) << left << setw(29) << " =" << f5->GetParameter(1)
+       << f5->GetParName(1) << left << setw(30) << " =" << f5->GetParameter(1)
        << " ± " << f5->GetParError(1) << '\n'
-       << f5->GetParName(2) << left << setw(28) << " =" << f5->GetParameter(2)
+       << f5->GetParName(2) << left << setw(29) << " =" << f5->GetParameter(2)
        << " ± " << f5->GetParError(2) << '\n'
        << f5->GetParName(0) << left << setw(28) << " =" << f5->GetParameter(0)
        << " ± " << f5->GetParError(0) << left << setw(38)

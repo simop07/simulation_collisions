@@ -14,7 +14,7 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
 - Cosmetica (in realtà può bastare questo, al massimo confontarsi sui loop ma va bene anche così)
 - Relazione
 - Eventuale legenda
-- Vedi se effettivamente il Cmake è fattibile (dovrebbe essere l'unico modo per visualizzare la Canvas quando si compila in shell).
+- Vedi se effettivamente il Cmake è fattibile (dovrebbe essere l'unico modo per visualizzare la Canvas quando si compila in SHELL).
 
 ## Note
 
@@ -29,3 +29,4 @@ The project is written in [C++](https://isocpp.org/) language, and it is support
     - Aggiunta di verifica indipendenza generazione angolo polare e azimutale
 
 - Per compilare il file script.sh: "chmod +x script.sh"
+- Dai un'occhiata al file .txt di appunti presente nella cartella

@@ -1,4 +1,4 @@
-// To compile in shell: "g++ resonanceType.cpp particleType.cpp particle.cpp
+// To compile in SHELL: "g++ resonanceType.cpp particleType.cpp particle.cpp
 // simulation.cpp `root-config --cflags --libs`"
 
 #include <algorithm>
@@ -210,7 +210,7 @@ void simulation() {
   file->Close();
 }
 
-// Add main in order to compile from shell
+// Add main in order to compile from SHELL
 int main() {
   setStyle();
 
