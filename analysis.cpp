@@ -285,26 +285,28 @@ void analysis() {
   // Printing datas in SHELL
 
   // Azimuthal angle
-  cout << left << setw(39) << "\nAzimuthal angle fit:" << left << setw(38)
-       << "\nConstant:" << f1->GetParameter(0) << " ± " << f1->GetParError(0)
-       << left << setw(39) << "\n\u03c7^2/NDF azimuthal angle fit:"
+  cout << "\nAzimuthal angle fit:" << '\n'
+       << f1->GetParName(0) << left << setw(29) << ':' << f1->GetParameter(0)
+       << " ± " << f1->GetParError(0) << left << setw(39)
+       << "\n\u03c7^2/NDF azimuthal angle fit:"
        << f1->GetChisquare() / f1->GetNDF() << left << setw(39)
        << "\n\u03c7^2 probability azimuthal angle fit:" << f1->GetProb()
        << '\n';
 
   // Polar angle
-  cout << left << setw(35) << "\nPolar angle fit:" << left << setw(34)
-       << "\nConstant:" << f2->GetParameter(0) << " ± " << f2->GetParError(0)
-       << left << setw(35)
+  cout << "\nPolar angle fit:" << '\n'
+       << f2->GetParName(0) << left << setw(25) << ':' << f2->GetParameter(0)
+       << " ± " << f2->GetParError(0) << left << setw(35)
        << "\n\u03c7^2/NDF polar angle fit:" << f2->GetChisquare() / f2->GetNDF()
        << left << setw(35)
        << "\n\u03c7^2 probability polar angle fit:" << f2->GetProb() << '\n';
 
   // 3D impulse
-  cout << "\n3D impulse fit:" << left << setw(33)
-       << "\nConstant:" << f3->GetParameter(0) << " ± " << f3->GetParError(0)
-       << left << setw(33) << "\np1:" << f3->GetParameter(1) << " ± "
-       << f3->GetParError(1) << left << setw(34)
+  cout << "\n3D impulse fit:" << '\n'
+       << f3->GetParName(0) << left << setw(24) << ':' << f3->GetParameter(0)
+       << " ± " << f3->GetParError(0) << '\n'
+       << f3->GetParName(1) << left << setw(29) << ':' << f3->GetParameter(1)
+       << " ± " << f3->GetParError(1) << left << setw(34)
        << "\n\u03c7^2/NDF 3D impulse fit:" << f3->GetChisquare() / f3->GetNDF()
        << left << setw(34)
        << "\n\u03c7^2 probability 3d impulse fit:" << f3->GetProb() << '\n';
@@ -331,7 +333,7 @@ void analysis() {
        << " ± " << f5->GetParError(0) << left << setw(38)
        << "\n\u03c7^2/NDF 2st difference fit:"
        << f5->GetChisquare() / f5->GetNDF() << left << setw(38)
-       << "\n\u03c7^2 probability 2st difference fit:" << f5->GetProb()
+       << "\n\u03c7^2 probability 2nd difference fit:" << f5->GetProb()
        << "\n\n";
 
   // Writing on new TFile
@@ -371,4 +373,9 @@ void analysis() {
   file1->Close();
 }
 
-int main() { analysis(); }
+// Add main in order to compile from SHELL
+int main() {
+  analysis();
+
+  return EXIT_SUCCESS;
+}
