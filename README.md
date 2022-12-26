@@ -9,13 +9,6 @@ Ottica](https://www.unibo.it/it/didattica/insegnamenti/insegnamento/2022/434322)
 The project is written in [C++](https://isocpp.org/) language, and it is supported by 
 [ROOT](https://root.cern.ch/) analysis framework. It can be compiled with [GCC](https://gcc.gnu.org/).
 
-## Da Fare
-
-- Cosmetica (in realtà può bastare questo, al massimo confontarsi sui loop ma va bene anche così)
-- Relazione
-- Eventuale legenda
-- Vedi se effettivamente il Cmake è fattibile (dovrebbe essere l'unico modo per visualizzare la Canvas quando si compila in SHELL).
-
 ## Note
 
 - **Aggiungere commenti**, ma non troppi tanto c'è già la relazione di supporto
