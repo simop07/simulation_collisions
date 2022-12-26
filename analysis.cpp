@@ -231,7 +231,7 @@ void analysis() {
          << "\nEntries:" << h->Integral() << '\n';
 
     if (h == h1) {
-      for (int i{1}; i != h->GetNbinsX(); ++i) {
+      for (int i{1}; i != h->GetNbinsX() + 1; ++i) {
         cout << "\n\u0025 of " << label[i - 1] << left << setw(10)
              << " generated: " << (h->GetBinContent(i) / h->GetEntries()) * 100.
              << "\u0025\n"
