@@ -1,3 +1,5 @@
+# Ignore
+
 *.o*
 .vscode
 *.pdf
@@ -12,3 +14,6 @@
 *.jpg
 *.gif
 *.sh
+
+# Do not ignore
+!PASQUINI_SIMONE_RELAZIONE_ROOT_2023.pdf
