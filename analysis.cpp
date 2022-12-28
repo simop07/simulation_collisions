@@ -236,8 +236,8 @@ void analysis() {
              << " generated: " << (h->GetBinContent(i) / h->GetEntries()) * 100.
              << "\u0025\n"
              << label[i - 1] << " in " << i << left << setw(12)
-             << " bin:" << h->GetBinContent(i) << " ± " << h->GetBinError(i)
-             << '\n';
+             << " bin:" << h->GetBinContent(i) << " \u00b1 "
+             << h->GetBinError(i) << '\n';
       }
     }
   });
@@ -287,7 +287,7 @@ void analysis() {
   // Azimuthal angle
   cout << "\nAzimuthal angle fit:" << '\n'
        << f1->GetParName(0) << left << setw(29) << ':' << f1->GetParameter(0)
-       << " ± " << f1->GetParError(0) << left << setw(39)
+       << " \u00b1 " << f1->GetParError(0) << left << setw(39)
        << "\n\u03c7^2/NDF azimuthal angle fit:"
        << f1->GetChisquare() / f1->GetNDF() << left << setw(39)
        << "\n\u03c7^2 probability azimuthal angle fit:" << f1->GetProb()
@@ -296,7 +296,7 @@ void analysis() {
   // Polar angle
   cout << "\nPolar angle fit:" << '\n'
        << f2->GetParName(0) << left << setw(25) << ':' << f2->GetParameter(0)
-       << " ± " << f2->GetParError(0) << left << setw(35)
+       << " \u00b1 " << f2->GetParError(0) << left << setw(35)
        << "\n\u03c7^2/NDF polar angle fit:" << f2->GetChisquare() / f2->GetNDF()
        << left << setw(35)
        << "\n\u03c7^2 probability polar angle fit:" << f2->GetProb() << '\n';
@@ -304,9 +304,9 @@ void analysis() {
   // 3D impulse
   cout << "\n3D impulse fit:" << '\n'
        << f3->GetParName(0) << left << setw(24) << ':' << f3->GetParameter(0)
-       << " ± " << f3->GetParError(0) << '\n'
+       << " \u00b1 " << f3->GetParError(0) << '\n'
        << f3->GetParName(1) << left << setw(29) << ':' << f3->GetParameter(1)
-       << " ± " << f3->GetParError(1) << left << setw(34)
+       << " \u00b1 " << f3->GetParError(1) << left << setw(34)
        << "\n\u03c7^2/NDF 3D impulse fit:" << f3->GetChisquare() / f3->GetNDF()
        << left << setw(34)
        << "\n\u03c7^2 probability 3d impulse fit:" << f3->GetProb() << '\n';
@@ -314,11 +314,11 @@ void analysis() {
   // K* 1st difference
   cout << '\n'
        << f4->GetParName(1) << left << setw(30) << " =" << f4->GetParameter(1)
-       << " ± " << f4->GetParError(1) << '\n'
+       << " \u00b1 " << f4->GetParError(1) << '\n'
        << f4->GetParName(2) << left << setw(29) << " =" << f4->GetParameter(2)
-       << " ± " << f4->GetParError(2) << '\n'
+       << " \u00b1 " << f4->GetParError(2) << '\n'
        << f4->GetParName(0) << left << setw(28) << " =" << f4->GetParameter(0)
-       << " ± " << f4->GetParError(0) << left << setw(38)
+       << " \u00b1 " << f4->GetParError(0) << left << setw(38)
        << "\n\u03c7^2/NDF 1st difference fit:"
        << f4->GetChisquare() / f4->GetNDF() << left << setw(38)
        << "\n\u03c7^2 probability 1st difference fit:" << f4->GetProb() << '\n';
@@ -326,11 +326,11 @@ void analysis() {
   // K* 2nd difference
   cout << '\n'
        << f5->GetParName(1) << left << setw(30) << " =" << f5->GetParameter(1)
-       << " ± " << f5->GetParError(1) << '\n'
+       << " \u00b1 " << f5->GetParError(1) << '\n'
        << f5->GetParName(2) << left << setw(29) << " =" << f5->GetParameter(2)
-       << " ± " << f5->GetParError(2) << '\n'
+       << " \u00b1 " << f5->GetParError(2) << '\n'
        << f5->GetParName(0) << left << setw(28) << " =" << f5->GetParameter(0)
-       << " ± " << f5->GetParError(0) << left << setw(38)
+       << " \u00b1 " << f5->GetParError(0) << left << setw(38)
        << "\n\u03c7^2/NDF 2st difference fit:"
        << f5->GetChisquare() / f5->GetNDF() << left << setw(38)
        << "\n\u03c7^2 probability 2nd difference fit:" << f5->GetProb()
@@ -346,7 +346,7 @@ void analysis() {
   c6->Write();
   c7->Write();
 
-  // Saving Canvas in .pdf, .png and .jpg format
+  // Saving Canvas in .pdf, .png and .jpg formats
   c1->Print("particleDistribution.pdf");
   c2->Print("impulse.pdf");
   c3->Print("energy.pdf");

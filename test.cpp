@@ -128,7 +128,7 @@ TEST_CASE("Particle") {
   CHECK(p2.GetCharge() == 1);
   CHECK(p3.GetCharge() == -1);
 
-  // "Testing GetEnergy
+  // Testing GetEnergy
   CHECK(p1.GetEnergy() == doctest::Approx(7549.66).epsilon(1.));
   CHECK(p2.GetEnergy() == doctest::Approx(10e3).epsilon(1.));
   CHECK(p3.GetEnergy() == doctest::Approx(2531.8));
