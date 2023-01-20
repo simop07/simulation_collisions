@@ -1,6 +1,7 @@
 <p align="center">
     <img src="./alice.png"
-        width="60%">
+        width="60%"
+        border-image-slice: 30;>
 </p>
 
 # Simulation
