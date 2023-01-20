@@ -16,4 +16,5 @@
 *.sh
 
 # Do not ignore
+!alice.png
 !PASQUINI_SIMONE_RELAZIONE_ROOT_2023.pdf
