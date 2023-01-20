@@ -5,7 +5,7 @@
 
 # Simulation
 
-[![DOI](https://zenodo.org/badge/490634037.svg)](https://zenodo.org/badge/latestdoi/490634037) [![GitHub 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7554296.svg)](https://doi.org/10.5281/zenodo.7554296) [![GitHub 
 license](https://img.shields.io/github/license/simop07/simulation_collisions)](https://github.com/simop07/simulation_collisions/blob/main/LICENSE)
 
 [This project](#simulation) show an approximated simulation of elementay particles colliding.\
