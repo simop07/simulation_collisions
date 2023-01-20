@@ -1,0 +1,10 @@
+cff-version: 1.0.1
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: Pasquini
+  given-names: Simone
+title: "Simulation collisions"
+version: 1.0.1
+doi: https://doi.org/10.5281/zenodo.7554296
+date-released: 2022-10-21
+url: "https://github.com/simop07/simulation_collisions"
